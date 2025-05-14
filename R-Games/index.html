@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R-Games - Competição de Jogos</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React via CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel para JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+  <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="images/favicon/site.webmanifest">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <div id="root"></div>
+
+  <!-- Firebase Modules -->
+  <script type="module" src="./js/FirebaseConfig.js"></script>
+
+  <!-- Scripts -->
+  <script type="text/babel" src="./js/components/NavBar.js"></script>
+  <script type="text/babel" src="./js/components/Footer.js"></script>
+  <script type="text/babel" src="./js/pages/Home.js"></script>
+  <script type="text/babel" src="./js/pages/GamesRanking.js"></script>
+  <script type="text/babel" src="./js/pages/Avaliacao.js"></script>
+  <script type="text/babel" src="./js/pages/AddGame.js"></script>
+  <script type="text/babel" src="./js/pages/GamesList.js"></script>
+  <script type="text/babel" src="./js/pages/Login.js"></script>
+  <script type="text/babel" src="./js/App.js"></script>
+  <script type="text/babel" src="./js/index.js"></script>
+</body>
+
+</html>
