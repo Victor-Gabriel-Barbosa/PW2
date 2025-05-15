@@ -1,0 +1,109 @@
+/* Estilos principais */
+:root {
+    --animation-duration: 0.3s;
+}
+
+/* Estilo para animações de transição */
+.theme-transition {
+    transition: background-color var(--animation-duration), 
+                color var(--animation-duration), 
+                border-color var(--animation-duration), 
+                box-shadow var(--animation-duration);
+}
+
+/* Estilo para scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: theme('colors.gray.100');
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: theme('colors.gray.800');
+}
+
+::-webkit-scrollbar-thumb {
+    background: theme('colors.gray.300');
+    border-radius: 5px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: theme('colors.gray.600');
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.gray.400');
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.gray.500');
+}
+
+/* Destaque de seção ativa no menu */
+.nav-link.active {
+    color: theme('colors.primary.500');
+    font-weight: 600;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.6s ease forwards;
+}
+
+/* Classe para delay sequencial nas animações */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Estilo para cards de projetos */
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Estilo para seletor de tema */
+.theme-dropdown {
+    position: relative;
+    user-select: none;
+}
+
+.theme-dropdown-menu {
+    animation: fadeIn 0.2s ease-out, slideUp 0.2s ease-out;
+    transform-origin: top right;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+}
+
+.dark .theme-dropdown-menu {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 640px) {
+    .theme-dropdown-menu {
+        width: 180px;
+        right: -10px;
+    }
+}

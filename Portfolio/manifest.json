@@ -1,0 +1,17 @@
+{
+  "name": "Meu Portfólio",
+  "short_name": "Portfólio",
+  "description": "Portfólio de desenvolvimento web com projetos em React, JavaScript e outras tecnologias modernas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0077f5",
+  "icons": [
+    {
+      "src": "./images/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

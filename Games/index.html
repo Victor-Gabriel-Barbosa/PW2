@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PacMan Web - Jogo Clássico</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/favicon.png">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>PacMan Web</h1>
+            <div class="score-container">
+                <span>Pontuação: </span>
+                <span id="score">0</span>
+            </div>
+            <div class="lives-container">
+                <span>Vidas: </span>
+                <span id="lives">3</span>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="448" height="496"></canvas>
+        
+        <div class="controls">
+            <div class="controls-info">
+                <p>Use as teclas de seta para movimentar o PacMan</p>
+                <button id="startButton">Iniciar Jogo</button>
+                <button id="restartButton" style="display:none;">Reiniciar</button>
+            </div>
+            <div class="mobile-controls">
+                <button id="up">↑</button>
+                <div class="horizontal-controls">
+                    <button id="left">←</button>
+                    <button id="right">→</button>
+                </div>
+                <button id="down">↓</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameOver" class="game-over">
+        <div class="game-over-content">
+            <h2>Fim de Jogo</h2>
+            <p>Sua pontuação final: <span id="finalScore">0</span></p>
+            <button id="playAgain">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script src="js/constants.js"></script>
+    <script src="js/gameMap.js"></script>
+    <script src="js/pacman.js"></script>
+    <script src="js/ghosts.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

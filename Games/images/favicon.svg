@@ -1,0 +1,5 @@
+<!-- Favicon SVG - PacMan simples -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <circle cx="16" cy="16" r="16" fill="#FFFF00"/>
+  <path d="M16 8 L28 16 L16 24 Z" fill="#000000"/>
+</svg>

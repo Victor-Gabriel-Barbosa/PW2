@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscia - Sua Música, Seu Estilo</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Vue.js via CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Configuração de cores personalizadas do Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1DB954',     // Verde Spotify
+            dark: '#121212',        // Fundo escuro
+            light: '#b3b3b3',       // Texto claro
+            lighter: '#FFFFFF',     // Texto mais claro
+            darkgray: '#181818',    // Cinza escuro para cards
+            darklight: '#282828'    // Cinza para hover
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-dark text-lighter">
+  <div id="app">
+    <div class="flex h-screen overflow-hidden">
+      <!-- Sidebar / Menu Lateral -->
+      <aside class="w-64 bg-black p-6 flex flex-col">
+        <div class="mb-8">
+          <h1 class="text-2xl font-bold text-white">
+            <i class="fas fa-music mr-2"></i>Muscia
+          </h1>
+        </div>
+
+        <nav class="flex-1">
+          <ul class="space-y-2">
+            <li>
+              <a @click="navigateTo('home')" class="flex items-center p-2 rounded hover:bg-darklight cursor-pointer"
+                :class="{ 'bg-darklight': currentPage === 'home' }">
+                <i class="fas fa-home mr-3"></i>
+                <span>Início</span>
+              </a>
+            </li>
+            <li>
+              <a @click="navigateTo('search')" class="flex items-center p-2 rounded hover:bg-darklight cursor-pointer"
+                :class="{ 'bg-darklight': currentPage === 'search' }">
+                <i class="fas fa-search mr-3"></i>
+                <span>Buscar</span>
+              </a>
+            </li>
+            <li>
+              <a @click="navigateTo('library')" class="flex items-center p-2 rounded hover:bg-darklight cursor-pointer"
+                :class="{ 'bg-darklight': currentPage === 'library' }">
+                <i class="fas fa-book mr-3"></i>
+                <span>Sua Biblioteca</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="mt-8">
+            <h3 class="text-xs uppercase font-semibold text-light tracking-wider mb-3">Playlists</h3>
+            <ul class="space-y-2">
+              <li>
+                <a class="flex items-center p-2 rounded hover:bg-darklight cursor-pointer">
+                  <i class="fas fa-plus-square mr-3 text-light"></i>
+                  <span>Criar Playlist</span>
+                </a>
+              </li>
+              <li v-for="playlist in playlists" :key="playlist.id">
+                <a @click="selectPlaylist(playlist)"
+                  class="flex items-center p-2 rounded hover:bg-darklight cursor-pointer"
+                  :class="{ 'text-primary': selectedPlaylist?.id === playlist.id }">
+                  <span>{{ playlist.name }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="mt-auto pt-4 border-t border-darklight">
+          <a class="flex items-center p-2 text-sm hover:text-white cursor-pointer">
+            <i class="fas fa-download mr-3"></i>
+            <span>Instalar App</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Conteúdo Principal -->
+      <main class="flex-1 overflow-y-auto">
+        <!-- Cabeçalho -->
+        <header class="bg-gradient-to-b from-[#333333] to-dark p-6 flex justify-between items-center sticky top-0 z-10">
+          <div class="flex items-center gap-4">
+            <button class="bg-black rounded-full w-8 h-8 flex items-center justify-center">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="bg-black rounded-full w-8 h-8 flex items-center justify-center">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <div>
+            <button class="bg-white text-dark font-bold py-2 px-6 rounded-full hover:bg-opacity-80">
+              Entrar
+            </button>
+          </div>
+        </header> <!-- Página Home -->
+        <div v-if="currentPage === 'home'" class="p-6">
+          <h2 class="text-2xl font-bold mb-6">Bem-vindo ao Muscia</h2>
+
+          <!-- Mensagem de carregamento ou erro -->
+          <div v-if="loading" class="flex justify-center items-center p-8">
+            <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+          </div>
+
+          <div v-if="error" class="bg-red-900 bg-opacity-30 text-white p-4 rounded mb-6">
+            {{ error }}
+          </div>
+
+          <div v-if="!loading" class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Músicas Populares</h3>
+            <div class="bg-darkgray rounded p-4">
+              <table class="w-full">
+                <thead class="border-b border-darklight">
+                  <tr class="text-light text-sm text-left">
+                    <th class="pb-2 w-12">#</th>
+                    <th class="pb-2">Título</th>
+                    <th class="pb-2">Álbum</th>
+                    <th class="pb-2 text-right">Duração</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(track, index) in topTracks" :key="track.id" @click="playSong(track)"
+                    class="group hover:bg-darklight cursor-pointer rounded">
+                    <td class="py-3 px-2">
+                      <div class="relative">
+                        <span class="group-hover:hidden">{{ index + 1 }}</span>
+                        <span class="hidden group-hover:inline">
+                          <i class="fas fa-play text-white"></i>
+                        </span>
+                      </div>
+                    </td>
+                    <td class="py-3 flex items-center">
+                      <img :src="track.albumCover" class="w-10 h-10 rounded mr-3">
+                      <div>
+                        <div class="font-medium">{{ track.title }}</div>
+                        <div class="text-sm text-light">{{ track.artist }}</div>
+                      </div>
+                    </td>
+                    <td class="py-3 text-light">{{ track.album }}</td>
+                    <td class="py-3 text-light text-right">{{ formatDuration(track.duration) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Álbuns Populares</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              <div v-for="album in recentAlbums" :key="album.id"
+                class="bg-darkgray p-4 rounded hover:bg-darklight transition-colors cursor-pointer card-hover">
+                <div class="mb-4 relative">
+                  <img :src="album.cover" :alt="album.name" class="w-full aspect-square object-cover rounded shadow-lg">
+                  <div class="play-icon">
+                    <i class="fas fa-play text-white"></i>
+                  </div>
+                </div>
+                <h4 class="font-semibold truncate">{{ album.name }}</h4>
+                <p class="text-sm text-light truncate">{{ album.artist }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Playlists em Alta</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              <div v-for="playlist in trendingPlaylists" :key="playlist.id" @click="selectPlaylist(playlist)"
+                class="bg-darkgray p-4 rounded hover:bg-darklight transition-colors cursor-pointer card-hover">
+                <div class="mb-4 relative">
+                  <img :src="playlist.cover" :alt="playlist.name"
+                    class="w-full aspect-square object-cover rounded shadow-lg">
+                  <div class="play-icon">
+                    <i class="fas fa-play text-white"></i>
+                  </div>
+                </div>
+                <h4 class="font-semibold truncate">{{ playlist.name }}</h4>
+                <p class="text-sm text-light truncate">{{ playlist.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div> <!-- Página de Busca -->
+        <div v-if="currentPage === 'search'" class="p-6">
+          <h2 class="text-2xl font-bold mb-6">Buscar</h2>
+
+          <div class="mb-6">
+            <div class="relative">
+              <input type="text" placeholder="O que você quer ouvir?" v-model="searchQuery" @keyup.enter="searchMusic"
+                class="bg-white bg-opacity-10 text-white w-full py-3 px-4 pl-10 rounded-full focus:outline-none focus:ring-2 focus:ring-primary">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                <i class="fas fa-search text-light"></i>
+              </div>
+              <button @click="searchMusic"
+                class="absolute right-2 inset-y-0 px-4 py-1 bg-primary text-white rounded-full hover:bg-opacity-80">
+                Buscar
+              </button>
+            </div>
+          </div>
+
+          <!-- Resultados da busca -->
+          <div v-if="searchQuery && songs.length > 0" class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Resultados para "{{ searchQuery }}"</h3>
+            <div class="bg-darkgray rounded p-4">
+              <table class="w-full">
+                <thead class="border-b border-darklight">
+                  <tr class="text-light text-sm text-left">
+                    <th class="pb-2 w-12">#</th>
+                    <th class="pb-2">Título</th>
+                    <th class="pb-2">Álbum</th>
+                    <th class="pb-2 text-right">Duração</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(track, index) in songs" :key="track.id" @click="playSong(track)"
+                    class="group hover:bg-darklight cursor-pointer rounded">
+                    <td class="py-3 px-2">
+                      <div class="relative">
+                        <span class="group-hover:hidden">{{ index + 1 }}</span>
+                        <span class="hidden group-hover:inline">
+                          <i class="fas fa-play text-white"></i>
+                        </span>
+                      </div>
+                    </td>
+                    <td class="py-3 flex items-center">
+                      <img :src="track.albumCover" class="w-10 h-10 rounded mr-3">
+                      <div>
+                        <div class="font-medium">{{ track.title }}</div>
+                        <div class="text-sm text-light">{{ track.artist }}</div>
+                      </div>
+                    </td>
+                    <td class="py-3 text-light">{{ track.album }}</td>
+                    <td class="py-3 text-light text-right">{{ formatDuration(track.duration) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Mensagem quando não há resultados -->
+          <div v-if="searchQuery && !loading && songs.length === 0" class="text-center py-8 bg-darkgray rounded">
+            <i class="fas fa-search text-4xl mb-4 text-light"></i>
+            <p class="text-xl">Nenhum resultado encontrado para "{{ searchQuery }}"</p>
+            <p class="text-light mt-2">Tente buscar por palavras-chave diferentes</p>
+          </div>
+
+          <!-- Spinner de carregamento -->
+          <div v-if="loading" class="flex justify-center items-center p-8">
+            <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+          </div>
+
+          <div class="mb-8 mt-8">
+            <h3 class="text-xl font-bold mb-4">Categorias</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              <div v-for="genre in genres" :key="genre.id" class="relative rounded overflow-hidden h-40 cursor-pointer"
+                :style="{ backgroundColor: genre.color }">
+                <h4 class="text-lg font-bold p-4">{{ genre.name }}</h4>
+                <img :src="genre.image"
+                  class="absolute bottom-0 right-0 w-20 h-20 transform rotate-25 translate-x-4 translate-y-4 object-cover">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Página da Biblioteca -->
+        <div v-if="currentPage === 'library'" class="p-6">
+          <h2 class="text-2xl font-bold mb-6">Sua Biblioteca</h2>
+
+          <div class="flex space-x-4 mb-6">
+            <button class="bg-darklight hover:bg-opacity-80 rounded-full px-4 py-1 text-sm font-medium">
+              Playlists
+            </button>
+            <button class="bg-darklight hover:bg-opacity-80 rounded-full px-4 py-1 text-sm font-medium">
+              Artistas
+            </button>
+            <button class="bg-darklight hover:bg-opacity-80 rounded-full px-4 py-1 text-sm font-medium">
+              Álbuns
+            </button>
+          </div>
+
+          <div class="bg-darkgray rounded p-4">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <i class="fas fa-search text-light mr-3"></i>
+                <span>Encontre na sua biblioteca</span>
+              </div>
+              <div>
+                <button class="text-light hover:text-white">Recentes <i class="fas fa-sort ml-1"></i></button>
+              </div>
+            </div>
+
+            <div class="divide-y divide-darklight">
+              <div v-for="item in libraryItems" :key="item.id"
+                class="py-2 flex items-center hover:bg-darklight cursor-pointer rounded p-2">
+                <img :src="item.image" :alt="item.name" class="w-12 h-12 mr-3"
+                  :class="{ 'rounded-full': item.type === 'artist', 'rounded': item.type !== 'artist' }">
+                <div>
+                  <h4 class="font-medium">{{ item.name }}</h4>
+                  <p class="text-xs text-light capitalize">{{ item.type }} • {{ item.creator }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- Player de Música -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-darkgray border-t border-darklight p-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center w-1/4">
+          <img v-if="currentSong" :src="currentSong.albumCover" alt="Album Cover"
+            class="w-14 h-14 object-cover rounded mr-3">
+          <div v-if="currentSong">
+            <h4 class="font-medium">{{ currentSong.title }}</h4>
+            <p class="text-xs text-light">{{ currentSong.artist }}</p>
+          </div>
+          <div v-else class="text-light text-sm">
+            Nenhuma música selecionada
+          </div>
+        </div>
+
+        <div class="w-1/2">
+          <div class="flex justify-center items-center mb-2">            <button class="mx-2 text-light hover:text-white">
+              <i class="fas fa-random"></i>
+            </button>
+            <button @click="playPreviousSong()" class="mx-2 text-light hover:text-white">
+              <i class="fas fa-step-backward"></i>
+            </button>
+            <button @click="togglePlay()"
+              class="mx-2 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center hover:scale-105">
+              <i :class="isPlaying ? 'fas fa-pause' : 'fas fa-play'"></i>
+            </button>
+            <button @click="playNextSong()" class="mx-2 text-light hover:text-white">
+              <i class="fas fa-step-forward"></i>
+            </button>
+            <button class="mx-2 text-light hover:text-white">
+              <i class="fas fa-redo"></i>
+            </button>
+          </div>          <div class="flex items-center">
+            <span class="text-xs text-light mr-2 current-time">0:00</span>
+            <div class="flex-1 h-1 bg-gray-600 rounded-full cursor-pointer progress-container">
+              <div class="h-1 bg-gray-400 rounded-full hover:bg-primary progress-bar" 
+                   :style="{ width: isPlaying ? '0%' : '0%' }">
+              </div>
+            </div>
+            <span class="text-xs text-light ml-2">{{ currentSong ? formatDuration(currentSong.duration) : '0:00'
+              }}</span>
+          </div>
+        </div>
+
+        <div class="w-1/4 flex justify-end items-center">
+          <button class="mx-1 text-light hover:text-white">
+            <i class="fas fa-list"></i>
+          </button>
+          <button class="mx-1 text-light hover:text-white">
+            <i class="fas fa-volume-up"></i>
+          </button>
+          <div class="w-24 h-1 bg-gray-600 rounded-full mx-2">
+            <div class="h-1 bg-gray-400 rounded-full w-1/2 hover:bg-primary"></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>

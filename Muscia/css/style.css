@@ -1,0 +1,110 @@
+/* Estilo adicional para a aplicação Muscia */
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Animações e transições */
+.transition-opacity {
+    transition: opacity 0.3s ease;
+}
+
+.hover-scale {
+    transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Efeito gradiente para imagens */
+.album-gradient {
+    position: relative;
+}
+
+.album-gradient::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0));
+    pointer-events: none;
+}
+
+/* Animação para o player */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Efeito de hover nos cards */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    background-color: #282828;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* Cores de destaque para itens ativos */
+.active-item {
+    color: #1DB954;
+    font-weight: bold;
+}
+
+/* Ícone de reprodução em hover */
+.play-icon {
+    opacity: 0;
+    transition: all 0.3s ease;
+    background-color: #1DB954;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(8px);
+}
+
+.music-item:hover .play-icon {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.play-icon:hover {
+    transform: scale(1.1);
+    background-color: #1ed760;
+}
