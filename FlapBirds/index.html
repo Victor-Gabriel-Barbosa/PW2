@@ -14,13 +14,15 @@
       <div class="score">Pontos: <span id="score">0</span></div>
       <div class="high-score">Recorde: <span id="highScore">0</span></div>
     </div>
-
     <div class="audio-controls">
       <button id="musicToggle" class="music-btn" title="Música de Fundo">
         🎵
       </button>
       <button id="soundToggle" class="sound-btn" title="Efeitos Sonoros">
         🔊
+      </button>
+      <button id="pauseButton" class="pause-btn" title="Pausar Jogo" style="display: none;">
+        ⏸️
       </button>
     </div>
 
@@ -32,7 +34,6 @@
       <p>Recorde: <span id="finalHighScore">0</span></p>
       <button id="restartButton">Jogar Novamente</button>
     </div>
-
     <div class="start-screen" id="startScreen">
       <h1>🐦 Flappy Bird 🐦</h1>
       <p>Pressione ESPAÇO ou clique para voar!</p>
@@ -40,8 +41,17 @@
       <button id="startButton">Começar</button>
     </div>
 
+    <div class="pause-screen" id="pauseScreen" style="display: none;">
+      <h2>⏸️ Jogo Pausado</h2>
+      <div class="pause-buttons">
+        <button id="resumeButton">Continuar</button>
+        <button id="restartFromPauseButton">Reiniciar</button>
+        <button id="backToMenuButton">Menu Principal</button>
+      </div>
+      <p class="pause-instructions">Pressione P ou ESC para pausar/continuar</p>
+    </div>
     <div class="instructions">
-      <p>Controles: Espaço, Clique ou Toque na tela</p>
+      <p>Controles: Espaço/Clique para voar | P/ESC para pausar</p>
     </div>
   </div>
 

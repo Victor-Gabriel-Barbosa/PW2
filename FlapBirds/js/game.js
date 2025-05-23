@@ -1,8 +1,7 @@
-class FlappyBird {
-  constructor() {
+class FlappyBird {  constructor() {
     this.canvas = document.getElementById('gameCanvas');
     this.ctx = this.canvas.getContext('2d');
-    this.gameState = 'start'; // 'start', 'playing', 'gameOver'
+    this.gameState = 'start'; // 'start', 'playing', 'paused', 'gameOver'
 
     // Sistema de áudio
     this.audioManager = new AudioManager();
@@ -40,15 +39,15 @@ class FlappyBird {
       shield: { active: false, duration: 0 },
       slowMotion: { active: false, duration: 0 },
       doublePoints: { active: false, duration: 0 }
-    };
-
-    // Elementos DOM
+    };    // Elementos DOM
     this.scoreElement = document.getElementById('score');
     this.highScoreElement = document.getElementById('highScore');
     this.gameOverScreen = document.getElementById('gameOver');
     this.startScreen = document.getElementById('startScreen');
+    this.pauseScreen = document.getElementById('pauseScreen');
     this.finalScoreElement = document.getElementById('finalScore');
     this.finalHighScoreElement = document.getElementById('finalHighScore');
+    this.pauseButton = document.getElementById('pauseButton');
     this.musicToggleBtn = document.getElementById('musicToggle');
     this.soundToggleBtn = document.getElementById('soundToggle');
 
@@ -82,11 +81,15 @@ class FlappyBird {
   }
 
   // Controles do jogo
-  setupEventListeners() {    
-    document.addEventListener('keydown', (e) => {
+  setupEventListeners() {      document.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
         this.handleInput();
+      } else if (e.code === 'KeyP' || e.code === 'Escape') {
+        e.preventDefault();
+        if (this.gameState === 'playing' || this.gameState === 'paused') {
+          this.togglePause();
+        }
       }
     });
 
@@ -100,9 +103,7 @@ class FlappyBird {
     this.canvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
       this.handleInput();
-    });
-
-    // Botões
+    });    // Botões
     document.getElementById('startButton').addEventListener('click', () => {
       this.startGame();
     });
@@ -110,8 +111,24 @@ class FlappyBird {
     document.getElementById('restartButton').addEventListener('click', () => {
       this.restartGame();
     });
-  }
 
+    // Botões de pause
+    this.pauseButton.addEventListener('click', () => {
+      this.togglePause();
+    });
+
+    document.getElementById('resumeButton').addEventListener('click', () => {
+      this.resumeGame();
+    });
+
+    document.getElementById('restartFromPauseButton').addEventListener('click', () => {
+      this.restartGame();
+    });
+
+    document.getElementById('backToMenuButton').addEventListener('click', () => {
+      this.backToMenu();
+    });
+  }
   handleInput() {
     if (this.gameState === 'start') {
       this.startGame();
@@ -120,9 +137,12 @@ class FlappyBird {
     } else if (this.gameState === 'gameOver') {
       this.restartGame();
     }
-  } startGame() {
+    // Não fazer nada se estiver pausado
+  }  startGame() {
     this.gameState = 'playing';
     this.startScreen.style.display = 'none';
+    this.pauseScreen.style.display = 'none';
+    this.pauseButton.style.display = 'block';
     this.bird.y = 300;
     this.bird.velocity = 0;
     this.pipes = [];
@@ -142,16 +162,25 @@ class FlappyBird {
     this.audioManager.resumeContext().then(() => {
       this.audioManager.startBackgroundMusic();
     });
-  }
-  restartGame() {
+  }  restartGame() {
     this.gameState = 'playing';
     this.gameOverScreen.style.display = 'none';
+    this.pauseScreen.style.display = 'none';
+    this.pauseButton.style.display = 'block';
     this.bird.y = 300;
     this.bird.velocity = 0;
     this.pipes = [];
+    this.powerUps = [];
     this.score = 0;
     this.pipeTimer = 0;
+    this.powerUpTimer = 0;
     this.particles = [];
+
+    // Reset power-ups
+    Object.keys(this.activePowerUps).forEach(key => {
+      this.activePowerUps[key] = { active: false, duration: 0 };
+    });
+
     this.updateScore();
 
     // Reiniciar música de fundo
@@ -393,9 +422,9 @@ class FlappyBird {
       });
     }
   }
-
   gameOver() {
     this.gameState = 'gameOver';
+    this.pauseButton.style.display = 'none';
     this.addCrashParticles();
 
     // Parar música de fundo e tocar som de game over
@@ -418,8 +447,7 @@ class FlappyBird {
   updateScore() {
     this.scoreElement.textContent = this.score;
     this.highScoreElement.textContent = this.highScore;
-  }
-  draw() {
+  }  draw() {
     // Limpar canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -443,6 +471,11 @@ class FlappyBird {
 
     // Desenhar indicadores de power-ups ativos
     this.drawPowerUpIndicators();
+
+    // Overlay de pause
+    if (this.gameState === 'paused') {
+      this.drawPauseOverlay();
+    }
   }
 
   drawClouds() {
@@ -654,6 +687,74 @@ class FlappyBird {
         indicatorY += 40;
       }
     });
+  }
+
+  // Métodos do sistema de pause
+  togglePause() {
+    if (this.gameState === 'playing') {
+      this.pauseGame();
+    } else if (this.gameState === 'paused') {
+      this.resumeGame();
+    }
+  }
+
+  pauseGame() {
+    this.gameState = 'paused';
+    this.pauseScreen.style.display = 'block';
+    this.pauseButton.textContent = '▶️';
+    this.audioManager.pauseBackgroundMusic();
+  }
+
+  resumeGame() {
+    this.gameState = 'playing';
+    this.pauseScreen.style.display = 'none';
+    this.pauseButton.textContent = '⏸️';
+    this.audioManager.resumeBackgroundMusic();
+  }
+
+  backToMenu() {
+    this.gameState = 'start';
+    this.pauseScreen.style.display = 'none';
+    this.startScreen.style.display = 'block';
+    this.pauseButton.style.display = 'none';
+    this.pauseButton.textContent = '⏸️';
+    
+    // Parar música de fundo
+    this.audioManager.stopBackgroundMusic();
+    
+    // Reset do jogo
+    this.bird.y = 300;
+    this.bird.velocity = 0;
+    this.pipes = [];
+    this.powerUps = [];
+    this.particles = [];
+    this.score = 0;
+    this.pipeTimer = 0;
+    this.powerUpTimer = 0;
+
+    // Reset power-ups
+    Object.keys(this.activePowerUps).forEach(key => {
+      this.activePowerUps[key] = { active: false, duration: 0 };
+    });
+
+    this.updateScore();
+  }
+
+  drawPauseOverlay() {
+    // Overlay escuro semitransparente
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // Texto de pause no centro
+    this.ctx.save();
+    this.ctx.fillStyle = 'white';
+    this.ctx.font = 'bold 48px Arial';
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
+    this.ctx.shadowColor = 'black';
+    this.ctx.shadowBlur = 10;
+    this.ctx.fillText('⏸️ PAUSADO', this.canvas.width / 2, this.canvas.height / 2);
+    this.ctx.restore();
   }
 
   gameLoop() {

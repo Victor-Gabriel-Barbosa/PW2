@@ -61,6 +61,31 @@ class AudioManager {
     this.stopAllOscillators();
   }
 
+  pauseBackgroundMusic() {
+    if (this.audioContext && this.isPlaying) {
+      // Pausar diminuindo o volume gradualmente
+      if (this.musicGain) {
+        this.musicGain.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.1);
+      }
+      this.isPlaying = false;
+      if (this.backgroundMusicInterval) {
+        clearInterval(this.backgroundMusicInterval);
+        this.backgroundMusicInterval = null;
+      }
+    }
+  }
+
+  resumeBackgroundMusic() {
+    if (this.audioContext && this.musicEnabled && !this.isPlaying) {
+      // Retomar restaurando o volume gradualmente
+      if (this.musicGain) {
+        this.musicGain.gain.linearRampToValueAtTime(0.4, this.audioContext.currentTime + 0.1);
+      }
+      this.isPlaying = true;
+      this.playMelodyLoop();
+    }
+  }
+
   playMelodyLoop() {
     if (!this.isPlaying || !this.musicEnabled) return;
 

@@ -51,23 +51,31 @@ body {
   gap: 10px;
 }
 
-.music-btn, .sound-btn {
+.music-btn, .sound-btn, .pause-btn {
   background: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  line-height: 1;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  margin: 0;
+  /* Força centralização perfeita */
+  position: relative;
 }
 
-.music-btn:hover, .sound-btn:hover {
+.music-btn:hover, .sound-btn:hover, .pause-btn:hover {
   background: rgba(0, 0, 0, 0.8);
   transform: scale(1.1);
 }
@@ -176,6 +184,66 @@ button:active {
   z-index: 10;
 }
 
+/* Tela de Pause */
+.pause-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  z-index: 25;
+  backdrop-filter: blur(5px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.pause-screen h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #ffd93d;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.pause-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.pause-buttons button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.pause-buttons button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.pause-buttons button:active {
+  transform: translateY(-1px);
+}
+
+.pause-instructions {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   #gameCanvas {
@@ -202,6 +270,26 @@ button:active {
 
   .instructions {
     bottom: 10px;
-    font-size: 12px;
-  }
+    font-size: 12px;  }
+}
+
+/* Ajuste específico para centralização dos botões */
+.pause-btn {
+  /* Reset de qualquer padding ou margin herdado */
+  padding: 0 !important;
+  margin: 0 !important;
+  /* Força a centralização */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  /* Ajuste fino do emoji */
+  font-size: 16px !important;
+}
+
+/* Ajuste para todos os botões terem melhor centralização */
+.music-btn, .sound-btn, .pause-btn {
+  /* Corrige pequenos desalinhamentos de emojis */
+  transform: translateY(-1px);
 }
