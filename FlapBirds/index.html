@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flappy Bird</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="game-container">    <div class="score-board">
+      <div class="score">Pontos: <span id="score">0</span></div>
+      <div class="high-score">Recorde: <span id="highScore">0</span></div>
+    </div>
+
+    <div class="audio-controls">
+      <button id="musicToggle" class="music-btn" title="Música de Fundo">
+        🎵
+      </button>
+      <button id="soundToggle" class="sound-btn" title="Efeitos Sonoros">
+        🔊
+      </button>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <div class="game-over" id="gameOver" style="display: none;">
+      <h2>Game Over!</h2>
+      <p>Sua pontuação: <span id="finalScore">0</span></p>
+      <p>Recorde: <span id="finalHighScore">0</span></p>
+      <button id="restartButton">Jogar Novamente</button>
+    </div>
+
+    <div class="start-screen" id="startScreen">
+      <h1>🐦 Flappy Bird 🐦</h1>
+      <p>Pressione ESPAÇO ou clique para voar!</p>
+      <p>Evite os canos e faça a maior pontuação!</p>
+      <button id="startButton">Começar</button>
+    </div>
+
+    <div class="instructions">
+      <p>Controles: Espaço, Clique ou Toque na tela</p>
+    </div>  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+</body>
+
+</html>
