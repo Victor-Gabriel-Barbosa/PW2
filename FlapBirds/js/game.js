@@ -81,8 +81,8 @@ class FlappyBird {
     });
   }
 
-  setupEventListeners() {
-    // Controles do jogo
+  // Controles do jogo
+  setupEventListeners() {    
     document.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
@@ -90,7 +90,9 @@ class FlappyBird {
       }
     });
 
-    this.canvas.addEventListener('click', () => {
+    // Usar mousedown em vez de click para resposta mais rápida
+    this.canvas.addEventListener('mousedown', (e) => {
+      e.preventDefault();
       this.handleInput();
     });
 
@@ -118,7 +120,7 @@ class FlappyBird {
     } else if (this.gameState === 'gameOver') {
       this.restartGame();
     }
-  }  startGame() {
+  } startGame() {
     this.gameState = 'playing';
     this.startScreen.style.display = 'none';
     this.bird.y = 300;
@@ -128,14 +130,14 @@ class FlappyBird {
     this.score = 0;
     this.pipeTimer = 0;
     this.powerUpTimer = 0;
-    
+
     // Reset power-ups
     Object.keys(this.activePowerUps).forEach(key => {
       this.activePowerUps[key] = { active: false, duration: 0 };
     });
-    
+
     this.updateScore();
-    
+
     // Iniciar música de fundo
     this.audioManager.resumeContext().then(() => {
       this.audioManager.startBackgroundMusic();
@@ -151,7 +153,7 @@ class FlappyBird {
     this.pipeTimer = 0;
     this.particles = [];
     this.updateScore();
-    
+
     // Reiniciar música de fundo
     this.audioManager.startBackgroundMusic();
   }
@@ -232,7 +234,7 @@ class FlappyBird {
         const points = this.activePowerUps.doublePoints.active ? 2 : 1;
         this.score += points;
         this.updateScore();
-        
+
         // Som de pontuação
         this.audioManager.playScoreSound();
       }
@@ -307,16 +309,16 @@ class FlappyBird {
   createPowerUp() {
     const types = ['shield', 'slowMotion', 'doublePoints'];
     const type = types[Math.floor(Math.random() * types.length)];
-    
+
     // Posição aleatória na vertical, evitando as bordas
     const y = Math.random() * (this.canvas.height - 200) + 100;
-    
+
     const powerUpConfig = {
       shield: { color: '#00BFFF', emoji: '🛡️', name: 'Escudo' },
       slowMotion: { color: '#9932CC', emoji: '⏰', name: 'Câmera Lenta' },
       doublePoints: { color: '#FFD700', emoji: '⭐', name: 'Pontos Duplos' }
     };
-    
+
     this.powerUps.push({
       type: type,
       x: this.canvas.width,
@@ -349,18 +351,18 @@ class FlappyBird {
   }
   checkPowerUpCollision(powerUp) {
     return this.bird.x < powerUp.x + powerUp.size &&
-           this.bird.x + this.bird.width > powerUp.x &&
-           this.bird.y < powerUp.y + powerUp.size &&
-           this.bird.y + this.bird.height > powerUp.y;
+      this.bird.x + this.bird.width > powerUp.x &&
+      this.bird.y < powerUp.y + powerUp.size &&
+      this.bird.y + this.bird.height > powerUp.y;
   }
 
   collectPowerUp(powerUp) {
     // Som de coleta de power-up
     this.audioManager.playPowerUpSound();
-    
+
     // Ativar o power-up
     this.activePowerUps[powerUp.type].active = true;
-    
+
     switch (powerUp.type) {
       case 'shield':
         this.activePowerUps.shield.duration = 300; // 5 segundos
@@ -374,7 +376,7 @@ class FlappyBird {
         this.activePowerUps.doublePoints.duration = 360; // 6 segundos
         break;
     }
-    
+
     // Adicionar partículas de coleta
     this.addPowerUpParticles(powerUp);
   }
@@ -395,7 +397,7 @@ class FlappyBird {
   gameOver() {
     this.gameState = 'gameOver';
     this.addCrashParticles();
-    
+
     // Parar música de fundo e tocar som de game over
     this.audioManager.stopBackgroundMusic();
     this.audioManager.playGameOverSound();
@@ -474,12 +476,12 @@ class FlappyBird {
       gradient.addColorStop(0, 'rgba(0, 191, 255, 0.1)');
       gradient.addColorStop(0.8, 'rgba(0, 191, 255, 0.3)');
       gradient.addColorStop(1, 'rgba(0, 191, 255, 0.6)');
-      
+
       this.ctx.fillStyle = gradient;
       this.ctx.beginPath();
       this.ctx.arc(0, 0, shieldRadius, 0, Math.PI * 2);
       this.ctx.fill();
-      
+
       this.ctx.strokeStyle = '#00BFFF';
       this.ctx.lineWidth = 2;
       this.ctx.shadowColor = '#00BFFF';
@@ -572,31 +574,31 @@ class FlappyBird {
 
   drawPowerUp(powerUp) {
     this.ctx.save();
-    
+
     // Animação de rotação e pulso
     powerUp.rotation += 0.05;
     powerUp.pulseTime += 0.1;
     const pulse = 1 + Math.sin(powerUp.pulseTime) * 0.2;
-    
+
     // Posição do power-up
     const centerX = powerUp.x + powerUp.size / 2;
     const centerY = powerUp.y + powerUp.size / 2;
-    
+
     this.ctx.translate(centerX, centerY);
     this.ctx.rotate(powerUp.rotation);
     this.ctx.scale(pulse, pulse);
-    
+
     // Fundo circular brilhante
     const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, powerUp.size / 2);
     gradient.addColorStop(0, powerUp.color + 'AA');
     gradient.addColorStop(0.7, powerUp.color + '44');
     gradient.addColorStop(1, powerUp.color + '00');
-    
+
     this.ctx.fillStyle = gradient;
     this.ctx.beginPath();
     this.ctx.arc(0, 0, powerUp.size / 2, 0, Math.PI * 2);
     this.ctx.fill();
-    
+
     // Borda brilhante
     this.ctx.strokeStyle = powerUp.color;
     this.ctx.lineWidth = 3;
@@ -605,7 +607,7 @@ class FlappyBird {
     this.ctx.beginPath();
     this.ctx.arc(0, 0, powerUp.size / 2 - 2, 0, Math.PI * 2);
     this.ctx.stroke();
-    
+
     // Emoji do power-up
     this.ctx.shadowBlur = 0;
     this.ctx.font = '20px Arial';
@@ -613,42 +615,42 @@ class FlappyBird {
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = 'white';
     this.ctx.fillText(powerUp.emoji, 0, 0);
-    
+
     this.ctx.restore();
   }
 
   drawPowerUpIndicators() {
     let indicatorY = 120;
     const indicatorX = 20;
-    
+
     Object.keys(this.activePowerUps).forEach(type => {
       const powerUp = this.activePowerUps[type];
       if (powerUp.active) {
         const duration = powerUp.duration;
         const maxDuration = type === 'shield' ? 300 : type === 'slowMotion' ? 240 : 360;
         const progress = duration / maxDuration;
-        
+
         // Configuração dos power-ups
         const config = {
           shield: { emoji: '🛡️', color: '#00BFFF', name: 'Escudo' },
           slowMotion: { emoji: '⏰', color: '#9932CC', name: 'Lento' },
           doublePoints: { emoji: '⭐', color: '#FFD700', name: '2x Pontos' }
         };
-        
+
         // Fundo do indicador
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         this.ctx.fillRect(indicatorX, indicatorY, 120, 30);
-        
+
         // Barra de progresso
         this.ctx.fillStyle = config[type].color;
         this.ctx.fillRect(indicatorX + 2, indicatorY + 20, (120 - 4) * progress, 8);
-        
+
         // Ícone e texto
         this.ctx.font = '16px Arial';
         this.ctx.fillStyle = 'white';
         this.ctx.textAlign = 'left';
         this.ctx.fillText(config[type].emoji + ' ' + config[type].name, indicatorX + 5, indicatorY + 15);
-        
+
         indicatorY += 40;
       }
     });
