@@ -91,7 +91,6 @@ body {
 
 #gameCanvas {
   display: block;
-  background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 70%, #90EE90 100%);
   cursor: pointer;
 }
 

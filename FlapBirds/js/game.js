@@ -49,10 +49,17 @@ class FlappyBird {  constructor() {
     this.finalHighScoreElement = document.getElementById('finalHighScore');
     this.pauseButton = document.getElementById('pauseButton');
     this.musicToggleBtn = document.getElementById('musicToggle');
-    this.soundToggleBtn = document.getElementById('soundToggle');
-
-    // Partículas para efeitos
+    this.soundToggleBtn = document.getElementById('soundToggle');    // Partículas para efeitos
     this.particles = [];
+
+    // Imagem de fundo
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = 'images/backgrounds/default-bg.jpg';
+    this.backgroundLoaded = false;
+    
+    this.backgroundImage.onload = () => {
+      this.backgroundLoaded = true;
+    };
 
     this.init();
   }
@@ -451,8 +458,8 @@ class FlappyBird {  constructor() {
     // Limpar canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Desenhar fundo (nuvens simples)
-    this.drawClouds();
+    // Desenhar fundo (imagem ou fallback)
+    this.drawBackground();
 
     // Desenhar canos
     this.pipes.forEach(pipe => this.drawPipe(pipe));
@@ -475,6 +482,22 @@ class FlappyBird {  constructor() {
     // Overlay de pause
     if (this.gameState === 'paused') {
       this.drawPauseOverlay();
+    }
+  }
+
+  drawBackground() {
+    if (this.backgroundLoaded) {
+      // Desenhar a imagem de fundo cobrindo todo o canvas
+      this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
+    } else {
+      // Fallback: desenhar um gradiente simples enquanto a imagem carrega
+      const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+      gradient.addColorStop(0, '#87CEEB');
+      gradient.addColorStop(0.7, '#98FB98');
+      gradient.addColorStop(1, '#90EE90');
+      
+      this.ctx.fillStyle = gradient;
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }
 
