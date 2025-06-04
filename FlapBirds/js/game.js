@@ -54,7 +54,7 @@ class FlappyBird {  constructor() {
 
     // Imagem de fundo
     this.backgroundImage = new Image();
-    this.backgroundImage.src = 'images/backgrounds/default-bg.jpg';
+    this.backgroundImage.src = 'images/backgrounds/background-image.jpg';
     this.backgroundLoaded = false;
     
     this.backgroundImage.onload = () => {

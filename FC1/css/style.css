@@ -1,0 +1,445 @@
+/* Calculadora Financeira - Estilos Customizados */
+
+/* Variáveis CSS */
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #0dcaf0;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --border-radius: 8px;
+  --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --transition: all 0.3s ease;
+}
+
+/* Reset e base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+/* Header */
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.navbar-brand i {
+  margin-right: 8px;
+  color: #ffd700;
+}
+
+/* Container principal */
+.container {
+  max-width: 1200px;
+}
+
+/* Título principal */
+h1 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+/* Navegação por abas */
+.nav-pills .nav-link {
+  color: #495057;
+  background-color: white;
+  border: 2px solid transparent;
+  margin: 0 2px;
+  font-weight: 500;
+  transition: var(--transition);
+  border-radius: var(--border-radius);
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.nav-pills .nav-link i {
+  margin-right: 6px;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  background: white;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--primary-color), #4c63d2);
+  color: white;
+  border-bottom: none;
+  border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+  padding: 1.25rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.card-header i {
+  margin-right: 8px;
+  color: #ffd700;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Formulários */
+.form-label {
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+  border: 2px solid #e9ecef;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: #fafafa;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  background-color: white;
+  transform: scale(1.02);
+}
+
+.form-control:hover:not(:focus),
+.form-select:hover:not(:focus) {
+  border-color: #ced4da;
+  background-color: white;
+}
+
+/* Botões */
+.btn {
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.5rem;
+  transition: var(--transition);
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), #4c63d2);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0b5ed7, #4053bf);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(13, 110, 253, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn i {
+  margin-right: 6px;
+}
+
+/* Container de resultados */
+.resultado-container {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  min-height: 200px;
+}
+
+.resultado-container h5 {
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+/* Alertas customizados */
+.alert {
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #d1edff, #a7d8f0);
+  color: #0a3622;
+  border-left: 4px solid var(--success-color);
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #cff4fc, #a6e9f7);
+  color: #055160;
+  border-left: 4px solid var(--info-color);
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  color: #664d03;
+  border-left: 4px solid var(--warning-color);
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #f8d7da, #f1aeb5);
+  color: #58151c;
+  border-left: 4px solid var(--danger-color);
+}
+
+/* Tabelas de resultado */
+.table-resultado {
+  background: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  margin-top: 1rem;
+}
+
+.table-resultado th {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 1rem;
+}
+
+.table-resultado td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle;
+}
+
+.table-resultado tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Valores monetários */
+.valor-monetario {
+  font-weight: 700;
+  color: var(--success-color);
+  font-size: 1.1rem;
+}
+
+.valor-negativo {
+  color: var(--danger-color);
+}
+
+.valor-neutro {
+  color: var(--secondary-color);
+}
+
+/* Badges e etiquetas */
+.badge-custom {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.badge-lucro {
+  background: var(--success-color);
+  color: white;
+}
+
+.badge-prejuizo {
+  background: var(--danger-color);
+  color: white;
+}
+
+.badge-neutro {
+  background: var(--secondary-color);
+  color: white;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .nav-pills .nav-link {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .resultado-container {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-pills .nav-link {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .nav-pills .nav-link i {
+    display: none;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .form-control,
+  .form-select {
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-pane {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Loading spinner personalizado */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Scroll personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0b5ed7;
+}
+
+/* Tooltips customizados */
+.tooltip-inner {
+  background-color: var(--dark-color);
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+}
+
+/* Melhorias de acessibilidade */
+.form-control:focus,
+.form-select:focus,
+.btn:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Estados de erro */
+.is-invalid {
+  border-color: var(--danger-color) !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.invalid-feedback {
+  display: block;
+  color: var(--danger-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Estilo para campos obrigatórios */
+.required::after {
+  content: " *";
+  color: var(--danger-color);
+  font-weight: bold;
+}

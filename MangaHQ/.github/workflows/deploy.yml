@@ -1,0 +1,83 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Validate Firebase Configuration
+      run: |
+        echo "🔍 Validando configuração do Firebase..."
+        
+        # Verificar se os arquivos essenciais existem
+        if [ ! -f "js/firebase-config-secure.js" ]; then
+          echo "❌ Arquivo firebase-config-secure.js não encontrado"
+          exit 1
+        fi
+        
+        if [ ! -f "firestore.rules" ]; then
+          echo "❌ Arquivo firestore.rules não encontrado"
+          exit 1
+        fi
+        
+        if [ ! -f "index.html" ]; then
+          echo "❌ Arquivo index.html não encontrado"
+          exit 1
+        fi
+        
+        echo "✅ Todos os arquivos essenciais encontrados"
+
+    - name: Check Security Configuration
+      run: |
+        echo "🔒 Verificando configuração de segurança..."
+        
+        # Verificar se a configuração segura está sendo usada
+        if grep -q "firebase-config-secure.js" index.html; then
+          echo "✅ Configuração segura detectada no index.html"
+        else
+          echo "⚠️  Aviso: Configuração segura não detectada"
+        fi
+        
+        # Verificar se há validação de domínio
+        if grep -q "isAuthorizedDomain" index.html; then
+          echo "✅ Validação de domínio implementada"
+        else
+          echo "⚠️  Aviso: Validação de domínio não encontrada"
+        fi
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: '.'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
+
+    - name: Post-deployment Security Check
+      run: |
+        echo "🚀 Deploy concluído!"
+        echo ""
+        echo "🔧 LEMBRETE: Configure no Firebase Console:"
+        echo "1. Authentication > Settings > Authorized domains"
+        echo "2. Adicione: ${GITHUB_REPOSITORY_OWNER}.github.io"
+        echo "3. Firestore Database > Rules (aplique firestore.rules)"
+        echo ""
+        echo "🌐 Site disponível em: https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}"

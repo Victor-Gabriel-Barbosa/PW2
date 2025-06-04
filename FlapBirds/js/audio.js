@@ -8,11 +8,12 @@ class AudioManager {
     this.soundEnabled = true;
     this.isPlaying = false;
     this.currentOscillators = [];
-    this.backgroundMusicInterval = null;
+    this.backgroundMusicBuffer = null;
+    this.backgroundMusicSource = null;
+    this.musicPath = 'audio/background-music.mp3'; // Caminho para o arquivo MP3
 
     this.init();
   }
-
   async init() {
     try {
       // Criar contexto de áudio
@@ -26,15 +27,34 @@ class AudioManager {
       // Conectar nós
       this.musicGain.connect(this.masterGain);
       this.soundGain.connect(this.masterGain);
-      this.masterGain.connect(this.audioContext.destination);
+      this.masterGain.connect(this.audioContext.destination);      
 
       // Configurar volumes
       this.masterGain.gain.value = 0.3;
-      this.musicGain.gain.value = 0.4;
+      this.musicGain.gain.value = 0.2;
       this.soundGain.gain.value = 0.6;
+
+      // Carregar música de fundo
+      await this.loadBackgroundMusic();
 
     } catch (error) {
       console.warn('Web Audio API não suportada:', error);
+    }
+  }
+
+  async loadBackgroundMusic() {
+    try {
+      const response = await fetch(this.musicPath);
+      if (!response.ok) {
+        throw new Error(`Erro ao carregar música: ${response.status}`);
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+      this.backgroundMusicBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+      console.log('Música de fundo carregada com sucesso');
+    } catch (error) {
+      console.warn('Não foi possível carregar a música de fundo:', error);
+      console.log('Continuando sem música de fundo...');
     }
   }
 
@@ -43,76 +63,72 @@ class AudioManager {
       await this.audioContext.resume();
     }
   }
-
-  // Música de fundo procedural
+  // Música de fundo com arquivo MP3
   startBackgroundMusic() {
-    if (!this.audioContext || !this.musicEnabled || this.isPlaying) return;
+    if (!this.audioContext || !this.musicEnabled || this.isPlaying || !this.backgroundMusicBuffer) {
+      return;
+    }
 
     this.isPlaying = true;
-    this.playMelodyLoop();
+    this.playBackgroundMusic();
   }
 
   stopBackgroundMusic() {
     this.isPlaying = false;
-    if (this.backgroundMusicInterval) {
-      clearInterval(this.backgroundMusicInterval);
-      this.backgroundMusicInterval = null;
+    if (this.backgroundMusicSource) {
+      this.backgroundMusicSource.stop();
+      this.backgroundMusicSource = null;
     }
     this.stopAllOscillators();
   }
 
   pauseBackgroundMusic() {
-    if (this.audioContext && this.isPlaying) {
+    if (this.audioContext && this.isPlaying && this.backgroundMusicSource) {
       // Pausar diminuindo o volume gradualmente
       if (this.musicGain) {
         this.musicGain.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.1);
       }
-      this.isPlaying = false;
-      if (this.backgroundMusicInterval) {
-        clearInterval(this.backgroundMusicInterval);
-        this.backgroundMusicInterval = null;
-      }
+
+      // Parar a fonte após o fade out
+      setTimeout(() => {
+        if (this.backgroundMusicSource) {
+          this.backgroundMusicSource.stop();
+          this.backgroundMusicSource = null;
+        }
+        this.isPlaying = false;
+      }, 100);
     }
   }
-
   resumeBackgroundMusic() {
-    if (this.audioContext && this.musicEnabled && !this.isPlaying) {
+    if (this.audioContext && this.musicEnabled && !this.isPlaying && this.backgroundMusicBuffer) {
       // Retomar restaurando o volume gradualmente
       if (this.musicGain) {
-        this.musicGain.gain.linearRampToValueAtTime(0.4, this.audioContext.currentTime + 0.1);
+        this.musicGain.gain.setValueAtTime(0, this.audioContext.currentTime);
+        this.musicGain.gain.linearRampToValueAtTime(0.15, this.audioContext.currentTime + 0.1); // Ajustado para 0.15
       }
       this.isPlaying = true;
-      this.playMelodyLoop();
+      this.playBackgroundMusic();
     }
   }
 
-  playMelodyLoop() {
-    if (!this.isPlaying || !this.musicEnabled) return;
+  playBackgroundMusic() {
+    if (!this.backgroundMusicBuffer || !this.isPlaying) return;
 
-    // Sequência de notas alegres
-    const melody = [
-      { freq: 523.25, duration: 0.3 }, // C5
-      { freq: 587.33, duration: 0.3 }, // D5
-      { freq: 659.25, duration: 0.3 }, // E5
-      { freq: 698.46, duration: 0.3 }, // F5
-      { freq: 783.99, duration: 0.6 }, // G5
-      { freq: 659.25, duration: 0.3 }, // E5
-      { freq: 523.25, duration: 0.6 }, // C5
-    ];
+    // Criar nova fonte de áudio
+    this.backgroundMusicSource = this.audioContext.createBufferSource();
+    this.backgroundMusicSource.buffer = this.backgroundMusicBuffer;
+    this.backgroundMusicSource.connect(this.musicGain);
+    this.backgroundMusicSource.loop = true; // Loop infinito
 
-    let noteIndex = 0;
-    const playNextNote = () => {
-      if (!this.isPlaying || !this.musicEnabled) return;
-
-      const note = melody[noteIndex];
-      this.playTone(note.freq, note.duration, 'triangle', this.musicGain, 0.1);
-
-      noteIndex = (noteIndex + 1) % melody.length;
-
-      setTimeout(playNextNote, note.duration * 1000);
+    // Callback para quando a música terminar (caso não seja loop)
+    this.backgroundMusicSource.onended = () => {
+      if (this.isPlaying && this.musicEnabled) {
+        // Reiniciar a música se ainda estiver tocando
+        setTimeout(() => this.playBackgroundMusic(), 100);
+      }
     };
 
-    playNextNote();
+    this.backgroundMusicSource.start(0);
   }
 
   // Som de pulo
@@ -168,46 +184,46 @@ class AudioManager {
   // Som de power-up coletado
   playPowerUpSound() {
     if (!this.audioContext || !this.soundEnabled) return;
-    
+
     // Som mágico ascendente
     const frequencies = [330, 415, 523, 659, 831]; // E4, Ab4, C5, E5, Ab5
-    
+
     frequencies.forEach((freq, index) => {
       setTimeout(() => {
         this.playTone(freq, 0.15, 'sine', this.soundGain, 0.3);
       }, index * 80);
     });
   }
-  
+
   // Som de shield ativo
   playShieldSound() {
     if (!this.audioContext || !this.soundEnabled) return;
-    
+
     // Som de proteção com eco
     this.playTone(220, 0.3, 'triangle', this.soundGain, 0.25);
     setTimeout(() => {
       this.playTone(440, 0.2, 'sine', this.soundGain, 0.15);
     }, 100);
   }
-  
+
   // Som de slow motion
   playSlowMotionSound() {
     if (!this.audioContext || !this.soundEnabled) return;
-    
+
     // Som de desaceleração
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(this.soundGain);
-    
+
     oscillator.type = 'sawtooth';
     oscillator.frequency.setValueAtTime(600, this.audioContext.currentTime);
     oscillator.frequency.exponentialRampToValueAtTime(100, this.audioContext.currentTime + 0.5);
-    
+
     gainNode.gain.setValueAtTime(0.2, this.audioContext.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
-    
+
     oscillator.start(this.audioContext.currentTime);
     oscillator.stop(this.audioContext.currentTime + 0.5);
   }
@@ -269,7 +285,6 @@ class AudioManager {
     this.soundEnabled = !this.soundEnabled;
     return this.soundEnabled;
   }
-
   setMusicVolume(volume) {
     if (this.musicGain) {
       this.musicGain.gain.value = volume;
@@ -279,6 +294,26 @@ class AudioManager {
   setSoundVolume(volume) {
     if (this.soundGain) {
       this.soundGain.gain.value = volume;
+    }
+  }
+
+  // Método para definir um novo arquivo de música
+  async setMusicFile(musicPath) {
+    const wasPlaying = this.isPlaying;
+
+    // Parar música atual se estiver tocando
+    if (this.isPlaying) {
+      this.stopBackgroundMusic();
+    }
+
+    this.musicPath = musicPath;
+
+    // Recarregar a nova música
+    await this.loadBackgroundMusic();
+
+    // Retomar se estava tocando antes
+    if (wasPlaying && this.musicEnabled) {
+      this.startBackgroundMusic();
     }
   }
 }

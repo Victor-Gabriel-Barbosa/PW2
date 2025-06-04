@@ -1,0 +1,110 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===== MANGÁS =====
+    // Leitura pública, escrita apenas para admins
+    match /mangas/{mangaId} {
+      // Qualquer um pode ler mangás
+      allow read: if true;
+      
+      // Apenas admins podem criar/editar/deletar
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ===== CATEGORIAS =====
+    // Leitura pública, escrita apenas para admins  
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ===== USUÁRIOS =====
+    // Cada usuário só pode acessar seus próprios dados
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+      
+      // Admins podem ler todos os usuários (para painel admin)
+      allow read: if isAdmin();
+      
+      // Apenas admins podem alterar roles
+      allow update: if isAdmin() && 
+                    onlyChangingFields(['role', 'status', 'permissions']);
+    }
+    
+    // ===== AVALIAÇÕES =====
+    // Usuários podem criar suas próprias avaliações
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+                    request.auth.uid == request.resource.data.userId;
+      allow update, delete: if isAuthenticated() && 
+                            (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ===== FAVORITOS =====
+    // Usuários só podem acessar seus próprios favoritos
+    match /users/{userId}/favorites/{favoriteId} {
+      allow read, write: if isOwner(userId);
+    }
+    
+    // ===== HISTÓRICO =====
+    // Usuários só podem acessar seu próprio histórico
+    match /users/{userId}/history/{historyId} {
+      allow read, write: if isOwner(userId);
+    }
+    
+    // ===== ESTATÍSTICAS (Apenas leitura para todos) =====
+    match /stats/{statId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ===== CONFIGURAÇÕES DO SISTEMA =====
+    // Apenas admins podem acessar
+    match /system/{configId} {
+      allow read, write: if isAdmin();
+    }
+    
+    // ===== FUNÇÕES AUXILIARES =====
+    
+    // Verificar se usuário está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Verificar se é o dono do recurso
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Verificar se é admin (baseado no email ou custom claims)
+    function isAdmin() {
+      return isAuthenticated() && 
+             (request.auth.token.email == 'admin@mangahq.com' ||
+              request.auth.token.admin == true ||
+              request.auth.uid in ['admin-uid-1', 'admin-uid-2']); // IDs específicos de admin
+    }
+    
+    // Verificar se apenas campos específicos estão sendo alterados
+    function onlyChangingFields(fields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields);
+    }
+    
+    // Verificar se o documento está sendo criado (não existe ainda)
+    function isCreating() {
+      return resource == null;
+    }
+    
+    // Verificar se o tamanho do documento não excede o limite
+    function isValidSize() {
+      return request.resource.size() < 1048576; // 1MB limite
+    }
+    
+    // ===== REGRA PADRÃO =====
+    // Por segurança, negar tudo que não está explicitamente permitido
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

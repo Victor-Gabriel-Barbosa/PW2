@@ -1,0 +1,369 @@
+/* Definição das variáveis de cores para o tema claro (padrão) */
+:root {
+  /* Cor de fundo principal */
+  --bg-color: #f4f4f4;
+  /* Cor do texto principal */
+  --text-color: #333;
+  /* Cor de fundo dos cards e seções */
+  --card-bg-color: #fff;
+  /* Cor das bordas */
+  --border-color: #ddd;
+  /* Cor de fundo do cabeçalho */
+  --header-bg-color: #333;
+  /* Cor do texto do cabeçalho */
+  --header-text-color: #fff;
+  /* Cor de fundo do botão principal */
+  --button-bg-color: #6a0dad;
+  /* Cor do texto do botão principal */
+  --button-text-color: #fff;
+  /* Cor do botão principal ao passar o mouse */
+  --button-hover-bg-color: #FFD700;
+  /* Cor para links ou destaques */
+  --link-color: #6a0dad;
+
+  --input-bg-color: #fff;
+  --input-text-color: #22272E;
+  --input-border-color: #ccc;
+  --hr-color: #ccc;
+}
+
+/* Definição das variáveis para o tema escuro */
+[data-theme="dark"] {
+  --bg-color: #0A0A14;
+  --text-color: #c9d1d9;
+  --card-bg-color: #2d333b;
+  --border-color: #444c56;
+  --header-bg-color: #1c2128;
+  --header-text-color: #c9d1d9;
+  --button-bg-color: #7F00FF;
+  --button-text-color: #fff;
+  --button-hover-bg-color: #7F00FF;
+  --link-color: #7F00FF;
+  --input-bg-color: #22272e;
+  --input-text-color: #c9d1d9;
+  --input-border-color: #444c56;
+  --hr-color: #444c56;
+}
+
+/* Estilos Gerais - Agora usando variáveis */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+  background-color: var(--header-bg-color);
+  color: var(--header-text-color);
+  padding: 1rem 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+header input[type="text"] {
+  padding: 10px;
+  width: 60%;
+  max-width: 400px;
+  border: 1px solid var(--input-border-color);
+  background-color: var(--input-bg-color);
+  color: var(--input-text-color);
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+header button#searchButton {
+  /* Seletor mais específico para o botão de busca */
+  padding: 10px 15px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+header button#searchButton:hover {
+  background-color: var(--button-hover-bg-color);
+}
+
+/* Estilos para os botões de tema */
+.theme-selector {
+  margin-top: 15px;
+}
+
+.theme-selector span {
+  margin-right: 10px;
+  color: var(--header-text-color);
+}
+
+.theme-selector button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg-color);
+  /* Fundo do card para contraste no header */
+  color: var(--text-color);
+  /* Texto principal para contraste no header */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.theme-selector button:hover {
+  border-color: var(--link-color);
+}
+
+.theme-selector button.active {
+  /* Estilo para o botão de tema ativo */
+  background-color: var(--link-color);
+  color: var(--button-text-color);
+  /* Usa a cor do texto do botão principal para o ativo */
+  border-color: var(--link-color);
+  font-weight: bold;
+}
+
+
+main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h2 {
+  color: var(--text-color);
+  border-bottom: 2px solid var(--link-color);
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.anime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.anime-item {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s, border-color 0.3s;
+}
+
+.anime-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  /* Sombra um pouco mais pronunciada no hover */
+}
+
+.anime-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: var(--bg-color);
+  /* Fundo para imagens transparentes */
+}
+
+.anime-item h3 {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  color: var(--text-color);
+  /* Título dentro do card */
+}
+
+#animeDetails {
+  background-color: var(--card-bg-color);
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s, border-color 0.3s;
+  overflow: hidden;
+  /* Para conter o float da imagem */
+}
+
+#animeDetails img.cover-image {
+  max-width: 250px;
+  height: auto;
+  border-radius: 5px;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+}
+
+#animeDetails h3 {
+  font-size: 1.8em;
+  color: var(--link-color);
+  /* Cor de destaque para o título do anime */
+}
+
+#animeDetails p {
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+#animeDetails strong {
+  color: var(--text-color);
+  /* Mantém o strong com a cor do texto, mas o peso já o destaca */
+  font-weight: bold;
+}
+
+#animeDetails .trailer-container iframe {
+  width: 100%;
+  max-width: 560px;
+  height: 315px;
+  margin-top: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+hr {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px solid var(--hr-color);
+}
+
+/* Mensagens de carregamento/erro */
+#animeList p,
+#animeDetails p:first-child {
+  /* Para mensagens como "Buscando..." */
+  color: var(--text-color);
+  font-style: italic;
+}
+
+/* === ESTILOS DO MODAL === */
+.modal {
+  display: none;
+  /* Escondido por padrão */
+  position: fixed;
+  /* Fica fixo na tela, mesmo com scroll */
+  z-index: 1000;
+  /* Garante que fique na frente de outros elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* Permite scroll DENTRO do modal se o conteúdo for grande */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Fundo preto semi-transparente (overlay) */
+  padding-top: 60px;
+  /* Espaço para não colar no topo */
+  padding-bottom: 60px;
+  /* Espaço para scroll */
+  padding: 20px; 
+}
+
+.modal-content {
+  background-color: var(--card-bg-color);
+  /* Usa a variável de cor do card */
+  color: var(--text-color);
+  /* Usa a variável de cor do texto */
+  margin: auto;
+  /* Centraliza horizontalmente e ajuda com o padding-top/bottom do .modal */
+  padding: 25px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 80%;
+  max-width: 700px;
+  /* Largura máxima para o conteúdo do modal */
+  position: relative;
+  /* Para posicionamento do botão de fechar */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeInModal 0.3s ease-out;
+  /* Animação simples de entrada */
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close-button {
+  color: var(--text-color);
+  position: absolute;
+  /* Posicionamento absoluto em relação ao .modal-content */
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.modal-close-button:hover,
+.modal-close-button:focus {
+  color: #ff0000;
+  /* Vermelho ao passar o mouse/focar */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Ajustes para o conteúdo dentro do modal (#modalAnimeDetails) */
+#modalAnimeDetails {
+  /* Os estilos de #animeDetails podem ser transferidos ou adaptados para aqui */
+}
+
+#modalAnimeDetails img.cover-image {
+  max-width: 200px;
+  /* Pode ser um pouco menor no modal */
+  height: auto;
+  border-radius: 5px;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+}
+
+#modalAnimeDetails h3 {
+  /* Título do anime nos detalhes */
+  font-size: 1.6em;
+  /* Um pouco menor para o modal */
+  color: var(--link-color);
+  margin-top: 0;
+  /* Remove margem do topo se for o primeiro elemento */
+}
+
+#modalAnimeDetails p {
+  margin-bottom: 10px;
+  clear: both;
+  /* Garante que o texto não fique ao lado da imagem se ela for a última coisa "flutuando" */
+}
+
+#modalAnimeDetails strong {
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+#modalAnimeDetails .trailer-container {
+  clear: both;
+  /* Garante que o trailer fique abaixo de tudo */
+  padding-top: 15px;
+}
+
+#modalAnimeDetails .trailer-container iframe {
+  width: 100%;
+  max-width: 560px;
+  height: 315px;
+  margin-top: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+/* Classe para impedir scroll no body quando o modal estiver aberto */
+body.modal-open {
+  overflow: hidden;
+}

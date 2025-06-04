@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Site de Animes</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Busca de Animes</h1>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Digite o nome do anime...">
+      <button id="searchButton">Buscar</button>
+    </div>
+
+    <div class="theme-selector">
+      <span>Tema:</span>
+      <button data-theme-toggle="light" title="Tema Claro">Claro</button>
+      <button data-theme-toggle="dark" title="Tema Escuro">Escuro</button>
+      <button data-theme-toggle="system" title="Usar preferência do Sistema">Sistema</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="resultsSection">
+      <h2>Resultados da Busca</h2>
+      <div id="animeList" class="anime-grid">
+      </div>
+    </section>
+  </main>
+
+  <div id="animeModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close-button" title="Fechar">&times;</span>
+      <div id="modalAnimeDetails">
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>
