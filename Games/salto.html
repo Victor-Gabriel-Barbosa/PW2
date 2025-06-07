@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sapo Saltador</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #a3d9a5;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #87ceeb;
+      border: 4px solid #3a5f0b;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const sapo = {
+      x: 180,
+      y: 540,
+      size: 40,
+      color: "green"
+    };
+
+    let folhas = [];
+    const folhaLargura = 80;
+    const folhaAltura = 20;
+
+    function criarFolhas() {
+      for (let i = 0; i < 6; i++) {
+        folhas.push({
+          x: Math.random() * (canvas.width - folhaLargura),
+          y: i * 100,
+          velocidade: 0.5 + Math.random()
+        });
+      }
+    }
+
+    function desenharSapo() {
+      ctx.fillStyle = sapo.color;
+      ctx.fillRect(sapo.x, sapo.y, sapo.size, sapo.size);
+    }
+
+    function desenharFolhas() {
+      ctx.fillStyle = "#2e8b57";
+      folhas.forEach(folha => {
+        ctx.fillRect(folha.x, folha.y, folhaLargura, folhaAltura);
+      });
+    }
+
+    function moverFolhas() {
+      folhas.forEach(folha => {
+        folha.y += folha.velocidade;
+        if (folha.y > canvas.height) {
+          folha.y = -folhaAltura;
+          folha.x = Math.random() * (canvas.width - folhaLargura);
+        }
+      });
+    }
+
+    function verificarColisao() {
+      let sobreFolha = false;
+      folhas.forEach(folha => {
+        if (
+          sapo.x + sapo.size > folha.x &&
+          sapo.x < folha.x + folhaLargura &&
+          sapo.y + sapo.size >= folha.y &&
+          sapo.y + sapo.size <= folha.y + folhaAltura + 5
+        ) {
+          sobreFolha = true;
+        }
+      });
+      if (!sobreFolha) {
+        sapo.y += 3; // cair
+      }
+    }
+
+    function limparTela() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function atualizar() {
+      limparTela();
+      desenharFolhas();
+      desenharSapo();
+      moverFolhas();
+      verificarColisao();
+      requestAnimationFrame(atualizar);
+    }
+
+    window.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft" && sapo.x > 0) sapo.x -= 20;
+      if (e.key === "ArrowRight" && sapo.x + sapo.size < canvas.width) sapo.x += 20;
+      if (e.key === "ArrowUp" && sapo.y > 0) sapo.y -= 40;
+      if (e.key === "ArrowDown" && sapo.y + sapo.size < canvas.height) sapo.y += 20;
+    });
+
+    criarFolhas();
+    atualizar();
+  </script>
+</body>
+
+</html>
