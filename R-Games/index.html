@@ -1,44 +1,497 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" data-bs-theme="light">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>R-Games - Competição de Jogos</title>
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- React via CDN -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <!-- Babel para JSX -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Eu faço você joga! - Competição de Jogos SI UFU</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
-  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" href="images/favicon/favicon-96x96.png">
   <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
   <link rel="manifest" href="images/favicon/site.webmanifest">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/styles.css" rel="stylesheet">
+
+  <!-- Firebase -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"></script>
+
+  <!-- Meta tags -->
+  <meta name="description" content="A competição de jogos  <!-- Error Toast -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="errorToast" class="toast" role="alert">
+      <div class="toast-header">
+        <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+        <strong class="me-auto">Erro</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body" id="errorToastBody">
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Game Modal -->
+  <div class="modal fade" id="addGameModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addGameModalTitle">Inscrever Novo Jogo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addGameForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="gameName" class="form-label">Nome do Jogo *</label>
+                <input type="text" class="form-control" id="gameName" name="name" required>
+              </div>
+              <div class="col-md-6">
+                <label for="gameDeveloper" class="form-label">Desenvolvedor(es) *</label>
+                <input type="text" class="form-control" id="gameDeveloper" name="developer" required>
+              </div>
+              <div class="col-md-6">
+                <label for="gameCategory" class="form-label">Categoria *</label>
+                <select class="form-select" id="gameCategory" name="category" required>
+                  <option value="" disabled selected>Selecione uma categoria</option>
+                  <option value="Ação">Ação</option>
+                  <option value="Aventura">Aventura</option>
+                  <option value="Casual">Casual</option>
+                  <option value="Corrida">Corrida</option>
+                  <option value="Esporte">Esporte</option>
+                  <option value="Estratégia">Estratégia</option>
+                  <option value="FPS">FPS</option>
+                  <option value="Indie">Indie</option>
+                  <option value="Luta">Luta</option>
+                  <option value="Puzzle">Puzzle</option>
+                  <option value="RPG">RPG</option>
+                  <option value="Simulação">Simulação</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="gameUrl" class="form-label">URL do Jogo *</label>
+                <input type="url" class="form-control" id="gameUrl" name="gameUrl" placeholder="https://..." required>
+              </div>
+              <div class="col-12">
+                <label for="gameDescription" class="form-label">Descrição *</label>
+                <textarea class="form-control" id="gameDescription" name="description" rows="3" required></textarea>
+              </div>
+              <div class="col-12">
+                <label for="gameImage" class="form-label">URL da Imagem</label>
+                <input type="url" class="form-control" id="gameImage" name="image" placeholder="https://...">
+                <div class="form-text">URL para uma imagem de capa do seu jogo (opcional)</div>
+              </div>
+            </div>
+            
+            <div class="alert alert-info mt-3">
+              <i class="bi bi-info-circle me-2"></i>
+              <strong>Importante:</strong> Seu jogo passará por uma moderação antes de ser publicado na galeria.
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="addGameForm" class="btn btn-primary">
+            <i class="bi bi-check-circle me-2"></i>Inscrever Jogo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Games Modal -->
+  <div class="modal fade" id="myGamesModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Meus Jogos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="myGamesContent">
+            <!-- Será preenchido dinamicamente -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Game Modal -->
+  <div class="modal fade" id="editGameModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Jogo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editGameForm">
+            <input type="hidden" id="editGameId" name="id">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="editGameName" class="form-label">Nome do Jogo *</label>
+                <input type="text" class="form-control" id="editGameName" name="name" required>
+              </div>
+              <div class="col-md-6">
+                <label for="editGameDeveloper" class="form-label">Desenvolvedor(es) *</label>
+                <input type="text" class="form-control" id="editGameDeveloper" name="developer" required>
+              </div>
+              <div class="col-md-6">
+                <label for="editGameCategory" class="form-label">Categoria *</label>
+                <select class="form-select" id="editGameCategory" name="category" required>
+                  <option value="" disabled>Selecione uma categoria</option>
+                  <option value="Ação">Ação</option>
+                  <option value="Aventura">Aventura</option>
+                  <option value="Casual">Casual</option>
+                  <option value="Corrida">Corrida</option>
+                  <option value="Esporte">Esporte</option>
+                  <option value="Estratégia">Estratégia</option>
+                  <option value="FPS">FPS</option>
+                  <option value="Indie">Indie</option>
+                  <option value="Luta">Luta</option>
+                  <option value="Puzzle">Puzzle</option>
+                  <option value="RPG">RPG</option>
+                  <option value="Simulação">Simulação</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="editGameUrl" class="form-label">URL do Jogo *</label>
+                <input type="url" class="form-control" id="editGameUrl" name="gameUrl" required>
+              </div>
+              <div class="col-12">
+                <label for="editGameDescription" class="form-label">Descrição *</label>
+                <textarea class="form-control" id="editGameDescription" name="description" rows="3" required></textarea>
+              </div>
+              <div class="col-12">
+                <label for="editGameImage" class="form-label">URL da Imagem</label>
+                <input type="url" class="form-control" id="editGameImage" name="image">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="editGameForm" class="btn btn-primary">
+            <i class="bi bi-check-circle me-2"></i>Salvar Alterações
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <meta name="keywords" content="jogos, competição, programação, UFU, Sistemas de Informação">
+  <meta name="author" content="Curso SI UFU Monte Carmelo">
 </head>
 
-<body class="bg-gray-100 min-h-screen">
-  <div id="root"></div>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: blueviolet;">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#home">
+        <i class="bi bi-controller me-2"></i>
+        Eu faço você joga!
+      </a>
 
-  <!-- Firebase Modules -->
-  <script type="module" src="./js/FirebaseConfig.js"></script>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <!-- Scripts -->
-  <script type="text/babel" src="./js/components/NavBar.js"></script>
-  <script type="text/babel" src="./js/components/Footer.js"></script>
-  <script type="text/babel" src="./js/pages/Home.js"></script>
-  <script type="text/babel" src="./js/pages/GamesRanking.js"></script>
-  <script type="text/babel" src="./js/pages/Avaliacao.js"></script>
-  <script type="text/babel" src="./js/pages/AddGame.js"></script>
-  <script type="text/babel" src="./js/pages/GamesList.js"></script>
-  <script type="text/babel" src="./js/pages/Login.js"></script>
-  <script type="text/babel" src="./js/App.js"></script>
-  <script type="text/babel" src="./js/index.js"></script>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Início</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#games">Jogos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ranking">Ranking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">Sobre</a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3">
+          <!-- Theme Switcher -->
+          <div class="dropdown">
+            <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-palette"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" data-theme="light"><i class="bi bi-sun me-2"></i>Claro</a></li>
+              <li><a class="dropdown-item" href="#" data-theme="dark"><i class="bi bi-moon me-2"></i>Escuro</a></li>
+              <li><a class="dropdown-item" href="#" data-theme="auto"><i class="bi bi-circle-half me-2"></i>Sistema</a>
+              </li>
+            </ul>
+          </div>          <!-- User Authentication -->
+          <div id="authContainer">
+            <button id="loginBtn" class="btn btn-outline-light">
+              <i class="bi bi-google me-2"></i>
+              Entrar com Google
+            </button>
+            <div id="userMenu" class="d-none">
+              <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  <img id="userAvatar" src="" alt="Avatar" class="rounded-circle me-2"
+                    style="width: 24px; height: 24px;">
+                  <span id="userName"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><button id="addGameBtn" class="dropdown-item"><i class="bi bi-plus-circle me-2"></i>Inscrever Jogo</button></li>
+                  <li><button id="myGamesBtn" class="dropdown-item"><i class="bi bi-controller me-2"></i>Meus Jogos</button></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><button id="logoutBtn" class="dropdown-item"><i
+                        class="bi bi-box-arrow-right me-2"></i>Sair</button></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero-section bg-gradient-primary text-white py-5">
+    <div class="container">
+      <div class="row align-items-center min-vh-75">
+        <div class="col-lg-6">
+          <div class="hero-content">
+            <h1 class="display-2 fw-bold mb-4 animate-fade-in">
+              Eu faço você joga!
+            </h1>
+            <p class="lead mb-4 animate-fade-in-delay">
+              A competição de jogos mais amigável de SI - UFU Monte Carmelo
+            </p>
+            <p class="mb-4 animate-fade-in-delay-2">
+              Uma competição amistosa entre os alunos do curso de Sistemas de Informação,
+              onde a criatividade, diversão e aprendizado são os verdadeiros prêmios.
+            </p>
+            <div class="hero-buttons animate-fade-in-delay-3">
+              <a href="#games" class="btn btn-light btn-lg me-3">
+                <i class="bi bi-play-circle me-2"></i>
+                Ver os Jogos
+              </a>
+              <a href="#about" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-info-circle me-2"></i>
+                Saiba Mais
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-image text-center">
+            <i class="bi bi-controller display-1 text-white-50 animate-bounce"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2 class="text-center mb-5">Sobre a Competição</h2>
+
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                  <i class="bi bi-lightbulb text-primary display-4 mb-3"></i>
+                  <h5 class="card-title">O que é?</h5>
+                  <p class="card-text">
+                    Uma competição amistosa de desenvolvimento de jogos entre os alunos de SI,
+                    focada no aprendizado e diversão.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                  <i class="bi bi-calendar-event text-primary display-4 mb-3"></i>
+                  <h5 class="card-title">Cronograma</h5>
+                  <ul class="list-unstyled">
+                    <li><strong>Desenvolvimento:</strong> Maio - Junho 2025</li>
+                    <li><strong>Submissões:</strong> Até 12/06/2025</li>
+                    <li><strong>Votação:</strong> 12/06/2025</li>
+                    <li><strong>Resultado:</strong> 12/06/2025</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                  <i class="bi bi-list-check text-primary display-4 mb-3"></i>
+                  <h5 class="card-title">Regras</h5>
+                  <ul class="list-unstyled text-start">
+                    <li>• Apenas alunos de SI podem participar</li>
+                    <li>• Máximo 1 desenvolvedor por jogo</li>
+                    <li>• Qualquer tecnologia é permitida</li>
+                    <li>• Deve ser jogável via web ou download</li>
+                    <li>• Submissão até 12/06/2025</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games Section -->
+  <section id="games" class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="text-center mb-5">Galeria de Jogos</h2>
+
+          <!-- Filters and Sort -->
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" id="searchInput" class="form-control" placeholder="Buscar jogos...">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <select id="sortSelect" class="form-select">
+                <option value="date-desc">Mais recentes primeiro</option>
+                <option value="rating-desc">Maior nota primeiro</option>
+                <option value="rating-asc">Menor nota primeiro</option>
+                <option value="name-asc">Nome (A-Z)</option>
+                <option value="name-desc">Nome (Z-A)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Games Grid -->
+          <div id="gamesGrid" class="container-fluid g-4">
+            <!-- Games will be loaded dynamically -->
+          </div>
+
+          <!-- No games message -->
+          <div id="noGamesMessage" class="text-center py-5 d-none">
+            <i class="bi bi-controller text-muted display-1"></i>
+            <h4 class="text-muted mt-3">Nenhum jogo encontrado</h4>
+            <p class="text-muted">Tente ajustar os filtros de busca.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ranking Section -->
+  <section id="ranking" class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="text-center mb-5">Ranking Final</h2>
+
+          <!-- Podium -->
+          <div id="podium" class="row justify-content-center mb-5">
+            <!-- Podium will be loaded dynamically -->
+          </div>
+
+          <!-- Full Ranking Table -->
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-primary">
+                <tr>
+                  <th>Posição</th>
+                  <th>Jogo</th>
+                  <th>Desenvolvedor(es)</th>
+                  <th>Nota Final</th>
+                  <th>Total de Votos</th>
+                </tr>
+              </thead>
+              <tbody id="rankingTableBody">
+                <!-- Ranking will be loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5><i class="bi bi-controller me-2"></i>Eu faço você joga!</h5>
+          <p class="mb-0">Competição de jogos - SI UFU Monte Carmelo</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="mb-0">
+            <i class="bi bi-heart-fill text-danger"></i>
+            Feito com carinho pelos alunos de SI
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Game Details Modal -->
+  <div class="modal fade" id="gameModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="gameModalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="gameModalBody">
+          <!-- Game details will be loaded dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Toast -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="successToast" class="toast" role="alert">
+      <div class="toast-header">
+        <i class="bi bi-check-circle-fill text-success me-2"></i>
+        <strong class="me-auto">Sucesso</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body" id="successToastBody">
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Toast -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="errorToast" class="toast" role="alert">
+      <div class="toast-header">
+        <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+        <strong class="me-auto">Erro</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body" id="errorToastBody">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JS -->
+  <script type="module" src="js/script.js"></script>
 </body>
 
 </html>

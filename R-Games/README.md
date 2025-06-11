@@ -1,20 +1,31 @@
-# R-Games - Competição de Jogos
+# 🎮 Eu faço você joga!
 
-Um site para uma competição de jogos independentes, desenvolvido com React e Tailwind CSS via CDN.
+Uma plataforma moderna e responsiva para competições de desenvolvimento de jogos entre alunos do curso de Sistemas de Informação da UFU - Monte Carmelo.
 
-## Funcionalidades
+## 🌟 Características
 
-- **Página Inicial**: Informações sobre a competição e ranking dos melhores jogos
-- **Lista de Jogos**: Visualização e filtragem de todos os jogos participantes
-- **Avaliação de Jogos**: Interface para avaliar os jogos participantes
-- **Cadastro de Jogos**: Formulário para adicionar seu jogo à competição (requer login)
-- **Sistema de Login**: Autenticação de usuários para participar da competição
+- **Design Moderno e Responsivo**: Interface limpa e elegante que funciona perfeitamente em desktop, tablet e mobile
+- **Autenticação com Google**: Sistema seguro de login usando Firebase Authentication
+- **Galeria de Jogos**: Visualização em grid com cards atrativos
+- **Sistema de Votação**: Avaliação com estrelas (1-5) restrita a usuários logados
+- **Ranking Dinâmico**: Pódio e tabela de classificação em tempo real
+- **Busca e Filtros**: Encontre jogos por nome, desenvolvedor ou categoria
+- **Temas Múltiplos**: Claro, escuro e automático (baseado no sistema)
+- **Navegação Suave**: Experiência fluida entre seções
 
-## Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
-- **React**: Biblioteca JavaScript para construção de interfaces (via CDN)
-- **Tailwind CSS**: Framework CSS para design responsivo (via CDN)
-- **Font Awesome**: Ícones utilizados na interface
+### Frontend
+- **HTML5**: Estrutura semântica moderna
+- **CSS3**: Estilos avançados com animações e variáveis CSS
+- **JavaScript ES6+**: Funcionalidades modernas e módulos
+- **Bootstrap 5**: Framework responsivo e componentes
+- **Bootstrap Icons**: Biblioteca de ícones consistente
+
+### Backend (BaaS)
+- **Firebase Authentication**: Login seguro com Google
+- **Cloud Firestore**: Banco de dados NoSQL em tempo real
+- **Firebase Hosting**: Hospedagem rápida e confiável
 
 ## Como Executar
 

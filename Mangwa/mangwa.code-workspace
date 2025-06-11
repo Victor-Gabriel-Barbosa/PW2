@@ -1,0 +1,38 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact"
+    },
+    "emmet.triggerExpansionOnTab": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "tailwindCSS.includeLanguages": {
+      "javascript": "javascript",
+      "html": "HTML"
+    },
+    "tailwindCSS.experimental.classRegex": [
+      "className[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
+    "files.associations": {
+      "*.css": "tailwindcss"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-typescript-next",
+      "ms-vscode.vscode-json"
+    ]
+  }
+}
