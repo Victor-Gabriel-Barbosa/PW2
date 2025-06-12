@@ -57,8 +57,12 @@ const Footer = () => {
             {/* Brand Section */}{" "}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="bg-gradient-primary p-2 rounded-lg">
-                  <i className="bi bi-book text-white text-xl"></i>
+                <div className="p-2 rounded-lg">
+                  <img
+                    src="/favicon/favicon.svg"
+                    alt="Mangwa Logo"
+                    className="w-6 h-6 text-white"
+                  />
                 </div>
                 <h3 className="text-xl font-bold text-gradient">Mangwa</h3>
               </div>

@@ -13,24 +13,29 @@ const Header = () => {
     { name: "Favoritos", href: "#favorites", icon: "bi-heart" },
   ];
   const themeOptions = [
-    { value: 'light', label: 'Claro', icon: '☀️' },
-    { value: 'dark', label: 'Escuro', icon: '🌙' },
-    { value: 'system', label: 'Sistema', icon: '💻' }
+    { value: "light", label: "Claro", icon: "bi-sun" },
+    { value: "dark", label: "Escuro", icon: "bi-moon" },
+    { value: "system", label: "Sistema", icon: "bi-display" },
   ];
-
   // Fechar dropdown ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isThemeDropdownOpen && !event.target.closest('.theme-dropdown')) {
+      if (isThemeDropdownOpen && !event.target.closest(".theme-dropdown")) {
         setIsThemeDropdownOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isThemeDropdownOpen]);
+
+  // Função para obter o ícone do tema atual
+  const getCurrentThemeIcon = () => {
+    const currentOption = themeOptions.find((option) => option.value === theme);
+    return currentOption ? currentOption.icon : "bi-display";
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b border-gray-200 dark:border-dark-700 transition-colors duration-300 ease-in-out">
@@ -39,8 +44,12 @@ const Header = () => {
           {" "}
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="bg-gradient-primary p-2 rounded-lg">
-              <i className="bi bi-book text-white text-xl"></i>
+            <div className="p-2 rounded-lg">
+              <img
+                src="/favicon/favicon.svg"
+                alt="Mangwa Logo"
+                className="w-6 h-6 text-white"
+              />
             </div>
             <h1 className="text-xl font-bold text-gradient">Mangwa</h1>
           </div>
@@ -58,7 +67,8 @@ const Header = () => {
           {/* Search Bar */}
           <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
             <div className="relative w-full">
-              <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>              <input
+              <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>{" "}
+              <input
                 type="text"
                 placeholder="Buscar mangás e manhwas..."
                 value={searchQuery}
@@ -68,17 +78,22 @@ const Header = () => {
             </div>
           </div>
           {/* Right side controls */}
-          <div className="flex items-center space-x-4">            {/* Theme Selector */}
+          <div className="flex items-center space-x-4">
+            {" "}
+            {/* Theme Selector */}
             <div className="relative theme-dropdown">
+              {" "}
               <button
                 onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
                 className="p-2 rounded-lg bg-gray-100 dark:bg-dark-800 hover:bg-gray-200 dark:hover:bg-dark-700 transition-colors duration-200 flex items-center space-x-1"
-                title={`Tema: ${getThemeLabel()}`}
-              >
-                <span className="text-lg">{getThemeIcon()}</span>
-                <i className="bi bi-chevron-down text-xs text-gray-600 dark:text-gray-400"></i>
+                title={`Tema: ${getThemeLabel()}`}>
+                <i
+                  className={`${getCurrentThemeIcon()} text-gray-700 dark:text-gray-300`}></i>
+                <i
+                  className={`bi bi-chevron-down text-xs text-gray-600 dark:text-gray-400 transition-transform duration-200 ${
+                    isThemeDropdownOpen ? "rotate-180" : ""
+                  }`}></i>
               </button>
-
               {/* Theme Dropdown */}
               {isThemeDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-dark-800 rounded-lg shadow-lg border border-gray-200 dark:border-dark-600 z-50">
@@ -91,11 +106,19 @@ const Header = () => {
                           setIsThemeDropdownOpen(false);
                         }}
                         className={`w-full px-3 py-2 text-left flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200 ${
-                          theme === option.value ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-300'
-                        }`}
-                      >
-                        <span>{option.icon}</span>
-                        <span className="text-sm font-medium">{option.label}</span>
+                          theme === option.value
+                            ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
+                            : "text-gray-700 dark:text-gray-300"
+                        }`}>
+                        <i
+                          className={`${option.icon} ${
+                            theme === option.value
+                              ? "text-primary-600 dark:text-primary-400"
+                              : ""
+                          }`}></i>
+                        <span className="text-sm font-medium">
+                          {option.label}
+                        </span>
                         {theme === option.value && (
                           <i className="bi bi-check ml-auto text-primary-600 dark:text-primary-400"></i>
                         )}
@@ -124,7 +147,8 @@ const Header = () => {
         {/* Mobile Search */}
         <div className="md:hidden pb-4">
           <div className="relative">
-            <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>            <input
+            <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>{" "}
+            <input
               type="text"
               placeholder="Buscar mangás e manhwas..."
               value={searchQuery}
