@@ -1,0 +1,1 @@
+document.getElementById("contador").innerHTML = parseInt(document.getElementById("contador").innerHTML) + 1;

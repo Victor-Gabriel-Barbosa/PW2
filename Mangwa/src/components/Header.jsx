@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../hooks/useTheme";
+import { useMangaSearch } from "../hooks/useMangas";
 
-const Header = () => {
+const Header = ({ onSearchToggle }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { theme, setTheme, getThemeIcon, getThemeLabel } = useTheme();
+  const { search, clearSearch, isSearching } = useMangaSearch();
   const navigationItems = [
     { name: "Início", href: "#home", icon: "bi-house" },
     { name: "Populares", href: "#popular", icon: "bi-fire" },
@@ -37,6 +40,32 @@ const Header = () => {
     return currentOption ? currentOption.icon : "bi-display";
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      search(searchQuery);
+      if (onSearchToggle) {
+        onSearchToggle(true);
+      }
+    }
+  };
+
+  const handleSearchClear = () => {
+    setSearchQuery("");
+    clearSearch();
+    if (onSearchToggle) {
+      onSearchToggle(false);
+    }
+  };
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (!isSearchOpen) {
+      setSearchQuery("");
+      clearSearch();
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b border-gray-200 dark:border-dark-700 transition-colors duration-300 ease-in-out">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,16 +95,24 @@ const Header = () => {
           </nav>{" "}
           {/* Search Bar */}
           <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>{" "}
+            <form onSubmit={handleSearch} className="relative w-full">
+              <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
               <input
                 type="text"
                 placeholder="Buscar mangás e manhwas..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                className="w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
               />
-            </div>
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={handleSearchClear}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <i className="bi bi-x-lg"></i>
+                </button>
+              )}
+            </form>
           </div>
           {/* Right side controls */}
           <div className="flex items-center space-x-4">

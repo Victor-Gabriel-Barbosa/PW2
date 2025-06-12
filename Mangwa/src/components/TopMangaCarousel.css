@@ -1,0 +1,124 @@
+/* Estilos customizados para o Top Manga Carousel */
+
+.top-manga-swiper {
+  padding: 20px 0 60px 0 !important;
+}
+
+.top-manga-swiper .swiper-pagination {
+  bottom: 20px !important;
+}
+
+.top-manga-swiper .swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1 !important;
+  transition: all 0.3s ease !important;
+}
+
+.top-manga-swiper .swiper-pagination-bullet-active {
+  background: #fbbf24 !important;
+  transform: scale(1.2) !important;
+}
+
+.top-manga-swiper .swiper-button-next,
+.top-manga-swiper .swiper-button-prev {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.top-manga-swiper .swiper-button-next:hover,
+.top-manga-swiper .swiper-button-prev:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.1) !important;
+}
+
+.top-manga-swiper .swiper-button-next::after,
+.top-manga-swiper .swiper-button-prev::after {
+  font-size: 20px !important;
+  font-weight: bold !important;
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* Efeitos de hover para os cards */
+.top-manga-card {
+  transition: all 0.3s ease;
+}
+
+.top-manga-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Animação para o badge de ranking */
+.ranking-badge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+  }
+}
+
+/* Melhorias para mobile */
+@media (max-width: 768px) {
+  .top-manga-swiper {
+    padding: 10px 0 40px 0 !important;
+  }
+
+  .top-manga-swiper .swiper-button-next,
+  .top-manga-swiper .swiper-button-prev {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .top-manga-swiper .swiper-button-next::after,
+  .top-manga-swiper .swiper-button-prev::after {
+    font-size: 16px !important;
+  }
+}
+
+/* Melhorias para dark mode */
+.dark .top-manga-swiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark .top-manga-swiper .swiper-button-next,
+.dark .top-manga-swiper .swiper-button-prev {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark .top-manga-swiper .swiper-button-next:hover,
+.dark .top-manga-swiper .swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
