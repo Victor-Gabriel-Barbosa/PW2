@@ -81,16 +81,16 @@ function inputCriancas() {
 function addAdulto() {
   const container = document.getElementById('adultos-container');
 
-  const adultDiv = document.createElement('div');
-  adultDiv.className = 'input-group mb-2';
-  adultDiv.innerHTML = `
+  const adultoDiv = document.createElement('div');
+  adultoDiv.className = 'input-group mb-2';
+  adultoDiv.innerHTML = `
     <input type="text" class="form-control" name="adulto[]" placeholder="Nome do adulto">
     <button type="button" class="btn btn-outline-danger" onclick="removeCampo(this)">
       Remover
     </button>
   `;
 
-  container.appendChild(adultDiv);
+  container.appendChild(adultoDiv);
 }
 
 // Adiciona um campo para inserir o nome de uma criança
