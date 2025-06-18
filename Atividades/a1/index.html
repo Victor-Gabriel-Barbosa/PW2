@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aniversário</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Container centralizado -->
+  <div class="container text-bg-dark rounded-3 mt-2 mb-2">
+    <h1 class="text-center p-3">Aniversário do <span class="text-info">André <i class="bi bi-cake"></i></span></h1>
+    <img src="https://img.freepik.com/vetores-gratis/feliz-aniversario-realista-em-preto-e-dourado_1361-3241.jpg" width="25%"
+    class="img-fluid rounded-circle border border-2 border-info mx-auto d-block" alt="Aniversário do João">
+    <h2 class="text-center p-1">Confirme a sua <span class="text-info">presença</span> aqui!</h2>
+    <form id="aniversario" class="pb-2 text-center" method="POST" action="processar.php">
+      <!-- Os campos serão criados via JavaScript -->
+      <button type="submit" class="btn btn-success">CONFIRMAR PRESENÇA!</button>
+    </form>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+
+</html>

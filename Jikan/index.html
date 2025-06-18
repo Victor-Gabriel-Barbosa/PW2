@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png" />
+  <link rel="manifest" href="images/favicon/site.webmanifest" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jikan API Tester</title>
+
+  <!-- CSS do Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Ícones do Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Ícones do Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- CSS Personalizado -->
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navegação -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="images/favicon/favicon.svg" alt="Jikan Logo" width="24" height="24" class="me-2">
+        Jikan API Tester
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#anime-section">
+              <i class="fas fa-tv me-1"></i>Anime
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#manga-section">
+              <i class="fas fa-book me-1"></i>Manga
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#random-section">
+              <i class="fas fa-random me-1"></i>Aleatório
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#characters-section">
+              <i class="fas fa-users me-1"></i>Personagens
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#seasons-section">
+              <i class="fas fa-calendar-alt me-1"></i>Temporadas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#genres-section">
+              <i class="fas fa-tags me-1"></i>Gêneros
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#recommendations-section">
+              <i class="fas fa-thumbs-up me-1"></i>Recomendações
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Seção Hero -->
+  <section class="hero-section py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="display-4 mb-4">
+            <img src="images/favicon/favicon.svg" alt="Jikan Logo" width="64" height="64" class="me-2">
+            Testador da API Jikan
+          </h1>
+          <p class="fs-4 mb-4">
+            Explore o mundo dos animes e mangás através da API oficial do MyAnimeList
+          </p>
+          <div class="d-flex justify-content-center gap-3">
+            <span class="badge bg-primary fs-6">
+              <i class="fas fa-database me-1"></i>API REST
+            </span>
+            <span class="badge bg-success fs-6">
+              <i class="fas fa-shield-alt me-1"></i>Gratuito
+            </span>
+            <span class="badge bg-info fs-6">
+              <i class="fas fa-code me-1"></i>JSON
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conteúdo Principal -->
+  <div class="container my-5">
+    <!-- Seção de Busca de Anime -->
+    <section id="anime-section" class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-tv me-2"></i>
+            Buscar Anime
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="input-group mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control" id="animeSearch" placeholder="Digite o nome do anime...">
+                <button class="btn btn-primary" type="button" onclick="searchAnime()">
+                  <i class="fas fa-search me-1"></i>Buscar
+                </button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-outline-secondary w-100" onclick="getTopAnime()">
+                <i class="fas fa-trophy me-1"></i>Top Animes
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner de Carregamento -->
+          <div id="animeLoading" class="text-center d-none">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="animeResults" class="row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Busca de Manga -->
+    <section id="manga-section" class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-success text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-book me-2"></i>
+            Buscar Manga
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="input-group mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control" id="mangaSearch" placeholder="Digite o nome do manga...">
+                <button class="btn btn-success" type="button" onclick="searchManga()">
+                  <i class="fas fa-search me-1"></i>Buscar
+                </button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-outline-secondary w-100" onclick="getTopManga()">
+                <i class="fas fa-trophy me-1"></i>Top Mangás
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner de Carregamento -->
+          <div id="mangaLoading" class="text-center d-none">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="mangaResults" class="row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção Aleatória -->
+    <section id="random-section" class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-warning text-dark">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-random me-2"></i>
+            Descobrir Aleatório
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <button class="btn btn-warning w-100 mb-3" onclick="getRandomAnime()">
+                <i class="fas fa-tv me-2"></i>Anime Aleatório
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-warning w-100 mb-3" onclick="getRandomManga()">
+                <i class="fas fa-book me-2"></i>Manga Aleatório
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner de Carregamento -->
+          <div id="randomLoading" class="text-center d-none">
+            <div class="spinner-border text-warning" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="randomResults"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Busca de Personagens -->
+    <section id="characters-section" class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-info text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-users me-2"></i>
+            Buscar Personagens
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="input-group mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control" id="characterSearch"
+                  placeholder="Digite o nome do personagem...">
+                <button class="btn btn-info" type="button" onclick="searchCharacters()">
+                  <i class="fas fa-search me-1"></i>Buscar
+                </button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-outline-info w-100" onclick="getTopCharacters()">
+                <i class="fas fa-trophy me-1"></i>Top Personagens
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner de Carregamento -->
+          <div id="charactersLoading" class="text-center d-none">
+            <div class="spinner-border text-info" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="charactersResults" class="row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Temporadas de Anime -->
+    <section id="seasons-section" class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-calendar-alt me-2"></i>
+            Temporadas de Anime
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <select class="form-select" id="seasonYear">
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select class="form-select" id="seasonName">
+                <option value="winter">Inverno</option>
+                <option value="spring">Primavera</option>
+                <option value="summer">Verão</option>
+                <option value="fall">Outono</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-dark w-100" onclick="getSeasonAnime()">
+                <i class="fas fa-calendar-alt me-1"></i>Buscar Temporada
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <button class="btn btn-outline-dark w-100 mb-2" onclick="getCurrentSeason()">
+                <i class="fas fa-clock me-1"></i>Temporada Atual
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-outline-dark w-100 mb-2" onclick="getUpcomingSeason()">
+                <i class="fas fa-forward me-1"></i>Próxima Temporada
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner de Carregamento -->
+          <div id="seasonsLoading" class="text-center d-none">
+            <div class="spinner-border text-dark" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="seasonsResults" class="row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Gêneros -->
+    <section id="genres-section" class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-secondary text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-tags me-2"></i>
+            Explorar por Gêneros
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-8">
+              <select class="form-select" id="genreSelect">
+                <option value="">Selecione um gênero...</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-secondary w-100" onclick="searchByGenre()">
+                <i class="fas fa-filter me-1"></i>Filtrar por Gênero
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <button class="btn btn-outline-secondary w-100 mb-2" onclick="loadAnimeGenres()">
+                <i class="fas fa-tv me-1"></i>Gêneros de Anime
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-outline-secondary w-100 mb-2" onclick="loadMangaGenres()">
+                <i class="fas fa-book me-1"></i>Gêneros de Manga
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner de Carregamento -->
+          <div id="genresLoading" class="text-center d-none">
+            <div class="spinner-border text-secondary" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="genresResults" class="row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Recomendações -->
+    <section id="recommendations-section" class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-thumbs-up me-2"></i>
+            Recomendações
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-8">
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-hashtag"></i>
+                </span>
+                <input type="number" class="form-control" id="animeIdInput" placeholder="ID do Anime no MAL" min="1">
+                <button class="btn btn-danger" type="button" onclick="getAnimeRecommendations()">
+                  <i class="fas fa-search me-1"></i>Ver Recomendações
+                </button>
+              </div>
+              <small class="text-muted">Digite o ID do anime no MyAnimeList para ver recomendações similares</small>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-outline-danger w-100" onclick="getRandomRecommendations()">
+                <i class="fas fa-magic me-1"></i>Recomendações Aleatórias
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner de Carregamento -->
+          <div id="recommendationsLoading" class="text-center d-none">
+            <div class="spinner-border text-danger" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="recommendationsResults" class="row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Informações da API -->
+    <section class="mb-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-info text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-info-circle me-2"></i>
+            Sobre a API Jikan
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h5><i class="fas fa-link me-2"></i>Endpoints Utilizados:</h5>
+              <ul class="list-unstyled">
+                <li><code>/v4/anime</code> - Buscar animes</li>
+                <li><code>/v4/manga</code> - Buscar mangás</li>
+                <li><code>/v4/characters</code> - Buscar personagens</li>
+                <li><code>/v4/seasons</code> - Temporadas de anime</li>
+                <li><code>/v4/genres/anime</code> - Gêneros de anime</li>
+                <li><code>/v4/genres/manga</code> - Gêneros de manga</li>
+                <li><code>/v4/recommendations/anime</code> - Recomendações</li>
+                <li><code>/v4/top/*</code> - Rankings</li>
+                <li><code>/v4/random/*</code> - Conteúdo aleatório</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-chart-bar me-2"></i>Estatísticas da Sessão:</h5>
+              <div class="row text-center">
+                <div class="col-3">
+                  <div class="stat-card">
+                    <h4 id="animeCount" class="text-primary">0</h4>
+                    <small>Animes</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="stat-card">
+                    <h4 id="mangaCount" class="text-success">0</h4>
+                    <small>Mangás</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="stat-card">
+                    <h4 id="charactersCount" class="text-info">0</h4>
+                    <small>Personagens</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="stat-card">
+                    <h4 id="totalRequests" class="text-warning">0</h4>
+                    <small>Requests</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>
+            <img src="images/favicon/favicon.svg" alt="Jikan Logo" width="24" height="24" class="me-2">
+            Jikan API Tester
+          </h5>
+          <p>Testador da API oficial do MyAnimeList</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p>
+            <i class="fas fa-globe me-2"></i>
+            <a href="https://jikan.moe/" target="_blank" class="text-light">
+              Documentação da API
+            </a>
+          </p>
+          <p>
+            <i class="fas fa-heart me-2"></i>
+            Feito com Bootstrap 5
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botão Voltar ao Topo -->
+  <button id="back-to-top" class="btn-back-to-top" title="Voltar ao topo">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- JS do Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- JS Personalizado -->
+  <script src="js/script.js"></script>
+</body>
+
+</html>
