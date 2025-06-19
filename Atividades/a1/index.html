@@ -8,19 +8,33 @@
   <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aniversário</title>
+  <title>Aniversário - André</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
 </head>
 
 <body>  
   <div class="container text-bg-dark rounded-3 p-4" style="max-width: 600px;">
-    <h1 class="text-center p-3">Aniversário do <span class="text-info">André <i class="bi bi-cake"></i></span></h1>
+    <h1 class="text-center p-3">🎉Aniversário do <span class="text-info">André <i class="bi bi-cake"></i></span></h1>
     <img src="https://img.freepik.com/fotos-gratis/pessoas-de-desenho-animado-a-celebrarem-uma-festa-de-aniversario_23-2151556544.jpg" width="25%"
-    class="img-fluid rounded-circle border border-2 border-info mx-auto d-block" alt="Aniversário do João">
+    class="img-fluid rounded-circle border border-2 border-info mx-auto d-block" alt="Aniversário">
     <h2 class="text-center p-1">Confirme a sua <span class="text-info">presença</span> aqui!</h2>
+    
     <form id="aniversario" class="pb-2 text-center" method="POST" action="processar.php">
-      <!-- Os campos serão criados via JavaScript -->
+      <div class="mb-4">
+        <label class="form-label text-white">Adultos</label>
+        <div id="adultos-container"></div>
+        <button type="button" class="btn btn-outline-info btn-sm mt-2" onclick="addCampo('adulto')">
+          + Adicionar Adulto
+        </button>
+      </div>
+      <div class="mb-4">
+        <label class="form-label text-white">Crianças</label>
+        <div id="criancas-container"></div>
+        <button type="button" class="btn btn-outline-info btn-sm mt-2" onclick="addCampo('crianca')">
+          + Adicionar Criança
+        </button>
+      </div>
       <button type="submit" class="btn btn-success">CONFIRMAR PRESENÇA!</button>
     </form>
   </div>
