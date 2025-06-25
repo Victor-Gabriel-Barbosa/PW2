@@ -20,7 +20,7 @@ function validaFormulario() {
 
   // Verifica se pelo menos um campo foi preenchido
   if (adultos.length === 0 && criancas.length === 0) {
-    alert('Por favor, preencha pelo menos um nome (adulto ou criança)!');
+    alert('Você não preencheu os nomes das pessoas que irão no aniversário. Tente novamente!');
     return false;
   }
 
@@ -52,23 +52,17 @@ function confirmaPresenca() {
 
   let mensagem = '';
 
-  if (adultos.length > 0) {
-    mensagem += `Adultos (${adultos.length}):\n`;
-    adultos.forEach(nome => mensagem += `• ${nome}\n`);
-    mensagem += '\n';
-  }
+  if (adultos.length > 0) mensagem += `Adultos: ${adultos.join(', ')}\n`;
+  else mensagem += 'Adulto: Nenhum\n';
 
-  if (criancas.length > 0) {
-    mensagem += `Crianças (${criancas.length}):\n`;
-    criancas.forEach(nome => mensagem += `• ${nome}\n`);
-  }
+  if (criancas.length > 0) mensagem += `Crianças: ${criancas.join(', ')}\n`;
+  else mensagem += 'Criança: Nenhuma\n';
 
   // Pede confirmação do usuário
-  if (confirm(mensagem + 'Deseja confirmar?')) {
+  if (confirm('Você confirma a presença dos seguintes convidados?\n' + mensagem)) {
     alert('Presença confirmada com sucesso!');
     return true;
   } 
 
-  alert('Presença não confirmada.');
   return false;
 }

@@ -15,22 +15,22 @@
 </head>
 
 <body>  
-  <div class="container text-bg-dark rounded-3 p-4" style="max-width: 600px;">
-    <h1 class="text-center p-3">🎉Aniversário do <span class="text-info">André <i class="bi bi-cake"></i></span></h1>
-    <img src="https://img.freepik.com/fotos-gratis/pessoas-de-desenho-animado-a-celebrarem-uma-festa-de-aniversario_23-2151556544.jpg" width="25%"
-    class="img-fluid rounded-circle border border-2 border-info mx-auto d-block" alt="Aniversário">
+  <div class="container bg-gradient-neon rounded-4 p-4">
+    <h1 class="text-center p-3">🎉Aniversário do <span class="text-info">André</span></h1>
+    <img src="https://img.freepik.com/fotos-gratis/pessoas-de-desenho-animado-a-celebrarem-uma-festa-de-aniversario_23-2151556544.jpg"
+    class="img-fluid img-card mx-auto d-block" alt="Aniversário">
     <h2 class="text-center p-1">Confirme a sua <span class="text-info">presença</span> aqui!</h2>
     
     <form id="aniversario" class="pb-2 text-center" method="POST" action="processar.php">
       <div class="mb-4">
-        <label class="form-label text-white">Adultos</label>
+        <label class="form-label">Adultos <i class="bi bi-person-fill-add text-info"></i></label>
         <div id="adultos-container"></div>
         <button type="button" class="btn btn-outline-info btn-sm mt-2" onclick="addCampo('adulto')">
           + Adicionar Adulto
         </button>
       </div>
       <div class="mb-4">
-        <label class="form-label text-white">Crianças</label>
+        <label class="form-label">Crianças <i class="bi bi-person-fill-dash text-info"></i></label>
         <div id="criancas-container"></div>
         <button type="button" class="btn btn-outline-info btn-sm mt-2" onclick="addCampo('crianca')">
           + Adicionar Criança

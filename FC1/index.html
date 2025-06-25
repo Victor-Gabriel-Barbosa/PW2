@@ -1,285 +1,197 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="light">
 
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" href="images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
+  <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora Financeira</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-  <!-- Header -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-xl navbar-dark bg-primary fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <i class="bi bi-calculator"></i> Calculadora Financeira
+        <i class="bi bi-calculator"></i>
+        Calculadora Financeira
       </a>
+      <div class="navbar-nav ms-auto">
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i id="themeIcon" class="bi bi-sun"></i>
+            <span id="themeText">Tema</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="#" onclick="setTheme('light')">
+                <i class="bi bi-sun"></i> Claro
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" onclick="setTheme('dark')">
+                <i class="bi bi-moon-stars"></i> Escuro
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" onclick="setTheme('auto')">
+                <i class="bi bi-laptop"></i> Sistema
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <!-- Main Content -->
-  <div class="container my-5">
+  <div class="container">
     <div class="row">
-      <div class="col-12">
-        <h1 class="text-center mb-5">Calculadora Financeira Completa</h1>
+      <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" role="tablist">
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#juros-simples">
+                  <i class="bi bi-graph-up"></i> Juros Simples
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#juros-compostos">
+                  <i class="bi bi-graph-up-arrow"></i> Juros Compostos
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="juros-simples">
+                <form id="form-simples">
+                  <div class="mb-3">
+                    <label for="capital-simples" class="form-label">Capital Inicial (R$)</label>
+                    <input type="number" class="form-control" id="capital-simples" step="0.01" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="taxa-simples" class="form-label">Taxa de Juros (%)</label>
+                    <input type="number" class="form-control" id="taxa-simples" step="0.01" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="periodo-simples" class="form-label">Período</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" id="periodo-simples" required>
+                      <select class="form-select" id="unidade-simples">
+                        <option value="dias">Dias</option>
+                        <option value="semanas">Semanas</option>
+                        <option value="meses" selected>Meses</option>
+                        <option value="trimestres">Trimestres</option>
+                        <option value="semestres">Semestres</option>
+                        <option value="anos">Anos</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-calculator"></i> Calcular
+                  </button>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="juros-compostos">
+                <form id="form-compostos">
+                  <div class="mb-3">
+                    <label for="capital-compostos" class="form-label">Capital Inicial (R$)</label>
+                    <input type="number" class="form-control" id="capital-compostos" step="0.01" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="taxa-compostos" class="form-label">Taxa de Juros (%)</label>
+                    <input type="number" class="form-control" id="taxa-compostos" step="0.01" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="periodo-compostos" class="form-label">Período</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" id="periodo-compostos" required>
+                      <select class="form-select" id="unidade-compostos">
+                        <option value="dias">Dias</option>
+                        <option value="semanas">Semanas</option>
+                        <option value="meses" selected>Meses</option>
+                        <option value="trimestres">Trimestres</option>
+                        <option value="semestres">Semestres</option>
+                        <option value="anos">Anos</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-calculator"></i> Calcular
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+          <div class="card-header">
+            <i class="bi bi-bar-chart"></i> Resultados
+          </div>
+          <div class="card-body">
+            <div id="resultados" class="text-center text-muted">
+              <i class="bi bi-calculator display-1"></i>
+              <p>Preencha os campos e calcule para ver os resultados</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Navigation Tabs -->
-    <ul class="nav nav-pills nav-fill mb-4" id="calculatorTabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="juros-simples-tab" data-bs-toggle="pill" data-bs-target="#juros-simples"
-          type="button" role="tab">
-          <i class="bi bi-percent"></i> Juros Simples
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="juros-compostos-tab" data-bs-toggle="pill" data-bs-target="#juros-compostos"
-          type="button" role="tab">
-          <i class="bi bi-graph-up"></i> Juros Compostos
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="financiamento-tab" data-bs-toggle="pill" data-bs-target="#financiamento"
-          type="button" role="tab">
-          <i class="bi bi-house"></i> Financiamento
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="desconto-tab" data-bs-toggle="pill" data-bs-target="#desconto" type="button"
-          role="tab">
-          <i class="bi bi-tags"></i> Desconto
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="inflacao-tab" data-bs-toggle="pill" data-bs-target="#inflacao" type="button"
-          role="tab">
-          <i class="bi bi-arrow-up-circle"></i> Inflação
-        </button>
-      </li>
-    </ul>
-
-    <!-- Tab Content -->
-    <div class="tab-content" id="calculatorTabsContent">
-      <!-- Juros Simples -->
-      <div class="tab-pane fade show active" id="juros-simples" role="tabpanel">
+    <div class="row" id="graficos-section" style="display: none;">
+      <div class="col mb-4">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title mb-0"><i class="bi bi-percent"></i> Calculadora de Juros Simples</h3>
+            <i class="bi bi-graph-up"></i> Evolução do Investimento
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <form id="jurosSimples-form">
-                  <div class="mb-3">
-                    <label for="js-capital" class="form-label">Capital Inicial (R$)</label>
-                    <input type="number" class="form-control" id="js-capital" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="js-taxa" class="form-label">Taxa de Juros (% ao período)</label>
-                    <input type="number" class="form-control" id="js-taxa" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="js-tempo" class="form-label">Tempo (períodos)</label>
-                    <input type="number" class="form-control" id="js-tempo" step="1" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-calculator"></i> Calcular
-                  </button>
-                </form>
-              </div>
-              <div class="col-md-6">
-                <div id="js-resultado" class="resultado-container">
-                  <h5>Resultado:</h5>
-                  <div class="alert alert-info">
-                    Preencha os campos para ver o resultado
-                  </div>
-                </div>
-              </div>
-            </div>
+            <canvas id="grafico-evolucao"></canvas>
           </div>
         </div>
       </div>
 
-      <!-- Juros Compostos -->
-      <div class="tab-pane fade" id="juros-compostos" role="tabpanel">
+      <div class="col mb-4">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title mb-0"><i class="bi bi-graph-up"></i> Calculadora de Juros Compostos</h3>
+            <i class="bi bi-pie-chart"></i> Composição Final
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <form id="jurosCompostos-form">
-                  <div class="mb-3">
-                    <label for="jc-capital" class="form-label">Capital Inicial (R$)</label>
-                    <input type="number" class="form-control" id="jc-capital" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="jc-taxa" class="form-label">Taxa de Juros (% ao período)</label>
-                    <input type="number" class="form-control" id="jc-taxa" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="jc-tempo" class="form-label">Tempo (períodos)</label>
-                    <input type="number" class="form-control" id="jc-tempo" step="1" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="jc-aporte" class="form-label">Aporte Mensal (R$) - Opcional</label>
-                    <input type="number" class="form-control" id="jc-aporte" step="0.01" value="0">
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-calculator"></i> Calcular
-                  </button>
-                </form>
-              </div>
-              <div class="col-md-6">
-                <div id="jc-resultado" class="resultado-container">
-                  <h5>Resultado:</h5>
-                  <div class="alert alert-info">
-                    Preencha os campos para ver o resultado
-                  </div>
-                </div>
-              </div>
-            </div>
+            <canvas id="grafico-composicao"></canvas>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Financiamento -->
-      <div class="tab-pane fade" id="financiamento" role="tabpanel">
+    <div class="row" id="tabela-section" style="display: none;">
+      <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title mb-0"><i class="bi bi-house"></i> Calculadora de Financiamento</h3>
+            <i class="bi bi-table"></i> Evolução Detalhada
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <form id="financiamento-form">
-                  <div class="mb-3">
-                    <label for="fin-valor" class="form-label">Valor do Bem (R$)</label>
-                    <input type="number" class="form-control" id="fin-valor" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="fin-entrada" class="form-label">Entrada (R$)</label>
-                    <input type="number" class="form-control" id="fin-entrada" step="0.01" value="0">
-                  </div>
-                  <div class="mb-3">
-                    <label for="fin-taxa" class="form-label">Taxa de Juros (% ao mês)</label>
-                    <input type="number" class="form-control" id="fin-taxa" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="fin-parcelas" class="form-label">Número de Parcelas</label>
-                    <input type="number" class="form-control" id="fin-parcelas" step="1" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="fin-sistema" class="form-label">Sistema de Amortização</label>
-                    <select class="form-select" id="fin-sistema" required>
-                      <option value="price">Tabela Price</option>
-                      <option value="sac">Sistema SAC</option>
-                    </select>
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-calculator"></i> Calcular
-                  </button>
-                </form>
-              </div>
-              <div class="col-md-6">
-                <div id="fin-resultado" class="resultado-container">
-                  <h5>Resultado:</h5>
-                  <div class="alert alert-info">
-                    Preencha os campos para ver o resultado
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Desconto -->
-      <div class="tab-pane fade" id="desconto" role="tabpanel">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title mb-0"><i class="bi bi-tags"></i> Calculadora de Desconto</h3>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <form id="desconto-form">
-                  <div class="mb-3">
-                    <label for="desc-valor" class="form-label">Valor Original (R$)</label>
-                    <input type="number" class="form-control" id="desc-valor" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="desc-tipo" class="form-label">Tipo de Desconto</label>
-                    <select class="form-select" id="desc-tipo" required>
-                      <option value="percentual">Percentual (%)</option>
-                      <option value="valor">Valor Fixo (R$)</option>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label for="desc-desconto" class="form-label">Desconto</label>
-                    <input type="number" class="form-control" id="desc-desconto" step="0.01" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-calculator"></i> Calcular
-                  </button>
-                </form>
-              </div>
-              <div class="col-md-6">
-                <div id="desc-resultado" class="resultado-container">
-                  <h5>Resultado:</h5>
-                  <div class="alert alert-info">
-                    Preencha os campos para ver o resultado
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Inflação -->
-      <div class="tab-pane fade" id="inflacao" role="tabpanel">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title mb-0"><i class="bi bi-arrow-up-circle"></i> Calculadora de Inflação</h3>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <form id="inflacao-form">
-                  <div class="mb-3">
-                    <label for="inf-valor" class="form-label">Valor Inicial (R$)</label>
-                    <input type="number" class="form-control" id="inf-valor" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="inf-taxa" class="form-label">Taxa de Inflação (% ao período)</label>
-                    <input type="number" class="form-control" id="inf-taxa" step="0.01" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="inf-tempo" class="form-label">Período (meses/anos)</label>
-                    <input type="number" class="form-control" id="inf-tempo" step="1" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-calculator"></i> Calcular
-                  </button>
-                </form>
-              </div>
-              <div class="col-md-6">
-                <div id="inf-resultado" class="resultado-container">
-                  <h5>Resultado:</h5>
-                  <div class="alert alert-info">
-                    Preencha os campos para ver o resultado
-                  </div>
-                </div>
-              </div>
+            <div class="table-responsive">
+              <table class="table table-responsive table-striped table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>Período</th>
+                    <th>Capital</th>
+                    <th>Juros</th>
+                    <th>Montante</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-evolucao">
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -287,17 +199,8 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-light text-center py-3 mt-5">
-    <div class="container">
-      <p class="mb-0">&copy; 2025 Calculadora Financeira. Desenvolvido para facilitar seus cálculos financeiros.
-      </p>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Custom JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/script.js"></script>
 </body>
 
