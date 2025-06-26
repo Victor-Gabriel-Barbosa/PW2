@@ -66,6 +66,11 @@
                   <i class="bi bi-graph-up-arrow"></i> Juros Compostos
                 </button>
               </li>
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#desconto-comercial">
+                  <i class="bi bi-percent"></i> Desconto Comercial
+                </button>
+              </li>
             </ul>
           </div>
           <div class="card-body">
@@ -134,6 +139,62 @@
                         <option value="semestres">Semestres</option>
                         <option value="anos">Anos</option>
                       </select>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-calculator"></i> Calcular
+                  </button>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="desconto-comercial">
+                <div class="mb-3">
+                  <div class="alert alert-info">
+                    <h6><i class="bi bi-info-circle"></i> Sobre Desconto Comercial</h6>
+                    <small>
+                      <strong>Taxa de Desconto Comercial (ic):</strong> Calculada sobre o valor nominal (futuro)<br>
+                      <strong>Taxa Efetiva (i):</strong> Calculada sobre o valor presente (atual)<br>
+                      <em>Fórmulas: ic = D/(N×t) e i = D/(P×t), onde D=desconto, N=valor nominal, P=valor presente, t=prazo</em>
+                    </small>
+                  </div>
+                </div>
+                <form id="form-desconto">
+                  <div class="mb-3">
+                    <label for="valor-nominal" class="form-label">Valor Nominal (R$)</label>
+                    <input type="number" class="form-control" id="valor-nominal" step="0.01" required>
+                    <div class="form-text">Valor futuro do título</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="valor-presente" class="form-label">Valor Presente (R$)</label>
+                    <input type="number" class="form-control" id="valor-presente" step="0.01" required>
+                    <div class="form-text">Valor atual do título</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="prazo-desconto" class="form-label">Prazo</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" id="prazo-desconto" required>
+                      <select class="form-select" id="unidade-desconto">
+                        <option value="dias">Dias</option>
+                        <option value="semanas">Semanas</option>
+                        <option value="meses" selected>Meses</option>
+                        <option value="trimestres">Trimestres</option>
+                        <option value="semestres">Semestres</option>
+                        <option value="anos">Anos</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Calcular:</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="tipo-calculo" id="calc-taxa-comercial" value="comercial" checked>
+                      <label class="form-check-label" for="calc-taxa-comercial">
+                        Taxa de Desconto Comercial (ic)
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="tipo-calculo" id="calc-taxa-efetiva" value="efetiva">
+                      <label class="form-check-label" for="calc-taxa-efetiva">
+                        Taxa Efetiva (i)
+                      </label>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary w-100">

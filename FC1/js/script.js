@@ -88,10 +88,114 @@ function calcularJurosCompostos(capital, taxa, periodo) {
   };
 }
 
+// Cálculo de Desconto Comercial
+function calcularDescontoComercial(valorNominal, valorPresente, prazo) {
+  const desconto = valorNominal - valorPresente;
+  const taxaComercial = (desconto / valorNominal) * (1 / prazo) * 100;
+  const taxaEfetiva = (desconto / valorPresente) * (1 / prazo) * 100;
+  
+  return {
+    valorNominal,
+    valorPresente,
+    desconto,
+    prazo,
+    taxaComercial,
+    taxaEfetiva,
+    tipo: 'desconto'
+  };
+}
+
+// Calcula apenas a taxa comercial
+function calcularTaxaComercial(valorNominal, valorPresente, prazo) {
+  const desconto = valorNominal - valorPresente;
+  const taxaComercial = (desconto / valorNominal) * (1 / prazo) * 100;
+  
+  return {
+    valorNominal,
+    valorPresente,
+    desconto,
+    prazo,
+    taxaComercial,
+    tipoCalculo: 'comercial',
+    tipo: 'desconto'
+  };
+}
+
+// Calcula apenas a taxa efetiva
+function calcularTaxaEfetiva(valorNominal, valorPresente, prazo) {
+  const desconto = valorNominal - valorPresente;
+  const taxaEfetiva = (desconto / valorPresente) * (1 / prazo) * 100;
+  
+  return {
+    valorNominal,
+    valorPresente,
+    desconto,
+    prazo,
+    taxaEfetiva,
+    tipoCalculo: 'efetiva',
+    tipo: 'desconto'
+  };
+}
+
 // Exibe resultados
 function exibirResultados(resultado) {
   const container = document.getElementById('resultados');
   
+  if (resultado.tipo === 'desconto') {
+    // Exibir resultados de desconto
+    let taxaInfo = '';
+    
+    if (resultado.tipoCalculo === 'comercial') {
+      taxaInfo = `
+        <div class="resultado-card fade-in">
+          <div class="resultado-label">Taxa de Desconto Comercial (ic)</div>
+          <div class="resultado-valor">${formatarPorcentagem(resultado.taxaComercial)} ao período</div>
+        </div>
+      `;
+    } else if (resultado.tipoCalculo === 'efetiva') {
+      taxaInfo = `
+        <div class="resultado-card fade-in">
+          <div class="resultado-label">Taxa Efetiva (i)</div>
+          <div class="resultado-valor">${formatarPorcentagem(resultado.taxaEfetiva)} ao período</div>
+        </div>
+      `;
+    } else {
+      // Mostrar ambas as taxas
+      taxaInfo = `
+        <div class="resultado-card fade-in">
+          <div class="resultado-label">Taxa de Desconto Comercial (ic)</div>
+          <div class="resultado-valor">${formatarPorcentagem(resultado.taxaComercial)} ao período</div>
+        </div>
+        <div class="resultado-card fade-in">
+          <div class="resultado-label">Taxa Efetiva (i)</div>
+          <div class="resultado-valor">${formatarPorcentagem(resultado.taxaEfetiva)} ao período</div>
+        </div>
+      `;
+    }
+
+    container.innerHTML = `
+      <div class="resultado-card fade-in">
+        <div class="resultado-label">Valor Nominal</div>
+        <div class="resultado-valor">${formatarMoeda(resultado.valorNominal)}</div>
+      </div>
+      <div class="resultado-card fade-in">
+        <div class="resultado-label">Valor Presente</div>
+        <div class="resultado-valor">${formatarMoeda(resultado.valorPresente)}</div>
+      </div>
+      <div class="resultado-card fade-in">
+        <div class="resultado-label">Desconto</div>
+        <div class="resultado-valor">${formatarMoeda(resultado.desconto)}</div>
+      </div>
+      ${taxaInfo}
+    `;
+
+    // Ocultar seções de gráficos e tabela para desconto
+    document.getElementById('graficos-section').style.display = 'none';
+    document.getElementById('tabela-section').style.display = 'none';
+    return;
+  }
+  
+  // Código existente para juros simples e compostos
   let taxaInfo = '';
   if (resultado.taxaOriginal && resultado.unidadeTaxaOriginal && resultado.taxaEfetiva) {
     const textoUnidadeOriginal = getUnidadeTaxaTexto(resultado.unidadeTaxaOriginal);
@@ -459,6 +563,35 @@ document.getElementById('form-compostos').addEventListener('submit', function (e
 
   const resultado = calcularJurosCompostos(capital, taxa, periodo);
   resultado.periodoOriginal = periodoOriginal;
+  resultado.unidadeOriginal = unidade;
+  window.lastCalculationResult = resultado;
+  exibirResultados(resultado);
+});
+
+// Event listener para o formulário de desconto comercial
+document.getElementById('form-desconto').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const valorNominal = parseFloat(document.getElementById('valor-nominal').value);
+  const valorPresente = parseFloat(document.getElementById('valor-presente').value);
+  const prazoOriginal = parseInt(document.getElementById('prazo-desconto').value);
+  const unidade = document.getElementById('unidade-desconto').value;
+  const tipoCalculo = document.querySelector('input[name="tipo-calculo"]:checked').value;
+
+  // Validar se valor nominal é maior que valor presente
+  if (valorNominal <= valorPresente) {
+    alert('O valor nominal deve ser maior que o valor presente!');
+    return;
+  }
+
+  const prazo = converterParaMeses(prazoOriginal, unidade);
+  let resultado;
+
+  if (tipoCalculo === 'comercial') resultado = calcularTaxaComercial(valorNominal, valorPresente, prazo);
+  else if (tipoCalculo === 'efetiva') resultado = calcularTaxaEfetiva(valorNominal, valorPresente, prazo);
+  else resultado = calcularDescontoComercial(valorNominal, valorPresente, prazo);
+
+  resultado.prazoOriginal = prazoOriginal;
   resultado.unidadeOriginal = unidade;
   window.lastCalculationResult = resultado;
   exibirResultados(resultado);
