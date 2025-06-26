@@ -52,7 +52,6 @@ label {
   border: 2px solid #ae01ff;
   border-radius: 50%;
   transition: transform 0.4s ease, filter 0.4s ease, box-shadow 0.4s ease;
-  cursor: pointer;
 
   &:hover {
     transform: scale(1.1) rotate(2deg);

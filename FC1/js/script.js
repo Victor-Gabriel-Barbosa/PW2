@@ -13,11 +13,11 @@ function setTheme(theme) {
   }
 
   updateThemeIcon(theme);
-  // Store theme preference
   localStorage.setItem('theme', theme);
   updateCharts();
 }
 
+// Atualiza o ícone e texto do tema
 function updateThemeIcon(theme) {
   const themeIcon = document.getElementById('themeIcon');
   const themeText = document.getElementById('themeText');
@@ -32,7 +32,7 @@ function updateThemeIcon(theme) {
   themeText.textContent = (themeMap[theme] || { text: 'Tema' }).text;
 }
 
-// Carregar tema salvo
+// Carrega tema salvo
 function loadTheme() {
   const savedTheme = localStorage.getItem('theme') || 'auto';
   setTheme(savedTheme);
@@ -88,15 +88,38 @@ function calcularJurosCompostos(capital, taxa, periodo) {
   };
 }
 
-// Exibir resultados
+// Exibe resultados
 function exibirResultados(resultado) {
   const container = document.getElementById('resultados');
+  
+  let taxaInfo = '';
+  if (resultado.taxaOriginal && resultado.unidadeTaxaOriginal && resultado.taxaEfetiva) {
+    const textoUnidadeOriginal = getUnidadeTaxaTexto(resultado.unidadeTaxaOriginal);
+    const textoUnidadeEfetiva = getUnidadeTaxaTexto(
+      resultado.unidadeOriginal === 'dias' ? 'diaria' :
+      resultado.unidadeOriginal === 'anos' ? 'anual' : 'mensal'
+    );
+    
+    if (resultado.taxaOriginal !== resultado.taxaEfetiva) {
+      taxaInfo = `
+        <div class="resultado-card fade-in">
+          <div class="resultado-label">Taxa Original</div>
+          <div class="resultado-valor">${formatarPorcentagem(resultado.taxaOriginal)} ${textoUnidadeOriginal}</div>
+        </div>
+        <div class="resultado-card fade-in">
+          <div class="resultado-label">Taxa Convertida</div>
+          <div class="resultado-valor">${formatarPorcentagem(resultado.taxaEfetiva)} ${textoUnidadeEfetiva}</div>
+        </div>
+      `;
+    }
+  }
 
   container.innerHTML = `
     <div class="resultado-card fade-in">
       <div class="resultado-label">Capital Inicial</div>
       <div class="resultado-valor">${formatarMoeda(resultado.capital)}</div>
     </div>
+    ${taxaInfo}
     <div class="resultado-card fade-in">
       <div class="resultado-label">Juros ${resultado.tipo === 'simples' ? 'Simples' : 'Compostos'}</div>
       <div class="resultado-valor">${formatarMoeda(resultado.juros)}</div>
@@ -111,16 +134,16 @@ function exibirResultados(resultado) {
     </div>
   `;
 
-  // Mostrar seções de gráficos e tabela
+  // Mostra seções de gráficos e tabela
   document.getElementById('graficos-section').style.display = 'block';
   document.getElementById('tabela-section').style.display = 'block';
 
-  // Gerar gráficos e tabela
+  // Gera gráficos e tabela
   gerarGraficos(resultado);
   gerarTabela(resultado);
 }
 
-// Gerar dados para evolução
+// Gera dados para evolução
 function gerarDadosEvolucao(resultado) {
   const dados = [];
   const { capital, taxa, periodo, tipo } = resultado;
@@ -149,7 +172,7 @@ function gerarDadosEvolucao(resultado) {
   return dados;
 }
 
-// Gerar gráficos
+// Gera gráficos
 function gerarGraficos(resultado) {
   const dados = gerarDadosEvolucao(resultado);
   const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
@@ -305,6 +328,86 @@ function converterParaMeses(periodo, unidade) {
   return periodos[unidade] ? periodos[unidade](periodo) : periodo;
 }
 
+// Função para converter taxa entre diferentes períodos (para juros simples)
+function converterTaxaSimples(taxa, unidadeOrigem, unidadeDestino) {
+  // Para juros simples, a conversão é proporcional
+  const fatoresConversao = {
+    'diaria': 1,
+    'mensal': 30,
+    'anual': 365
+  };
+  
+  // Converte para taxa diária primeiro
+  const taxaDiaria = taxa / fatoresConversao[unidadeOrigem];
+  
+  // Converte da taxa diária para a unidade desejada
+  return taxaDiaria * fatoresConversao[unidadeDestino];
+}
+
+// Função para atualizar a exibição da taxa convertida
+function atualizarTaxaConvertida() {
+  const taxaInput = document.getElementById('taxa-simples');
+  const unidadeTaxa = document.getElementById('unidade-taxa-simples');
+  const periodoUnidade = document.getElementById('unidade-simples');
+  const taxaConvertidaSpan = document.getElementById('taxa-convertida-simples');
+  
+  const taxa = parseFloat(taxaInput.value);
+  const unidadeOrigem = unidadeTaxa.value;
+  const periodoSelecionado = periodoUnidade.value;
+  
+  if (!taxa || taxa <= 0) {
+    taxaConvertidaSpan.textContent = '-';
+    return;
+  }
+  
+  // Mapeia unidades de período para unidades de taxa
+  const mapeamentoUnidades = {
+    'dias': 'diaria',
+    'semanas': 'diaria', // Aproximação
+    'meses': 'mensal',
+    'trimestres': 'mensal', // Aproximação
+    'semestres': 'mensal', // Aproximação
+    'anos': 'anual'
+  };
+  
+  const unidadeDestino = mapeamentoUnidades[periodoSelecionado] || 'mensal';
+  
+  if (unidadeOrigem === unidadeDestino) taxaConvertidaSpan.textContent = `${taxa.toFixed(4)}% ${getUnidadeTaxaTexto(unidadeDestino)}`;
+  else {
+    const taxaConvertida = converterTaxaSimples(taxa, unidadeOrigem, unidadeDestino);
+    taxaConvertidaSpan.textContent = `${taxaConvertida.toFixed(4)}% ${getUnidadeTaxaTexto(unidadeDestino)}`;
+  }
+}
+
+// Função auxiliar para obter texto da unidade de taxa
+function getUnidadeTaxaTexto(unidade) {
+  const textos = {
+    'diaria': 'ao dia',
+    'mensal': 'ao mês',
+    'anual': 'ao ano'
+  };
+  return textos[unidade] || '';
+}
+
+// Calcula taxa efetiva para o período selecionado
+function calcularTaxaEfetiva(taxa, unidadeTaxa, periodo, unidadePeriodo) {
+  // Mapeia unidades de período para unidades de taxa
+  const mapeamentoUnidades = {
+    'dias': 'diaria',
+    'semanas': 'diaria',
+    'meses': 'mensal',
+    'trimestres': 'mensal',
+    'semestres': 'mensal',
+    'anos': 'anual'
+  };
+  
+  const unidadeDestino = mapeamentoUnidades[unidadePeriodo] || 'mensal';
+  
+  if (unidadeTaxa === unidadeDestino) return taxa;
+  
+  return converterTaxaSimples(taxa, unidadeTaxa, unidadeDestino);
+}
+
 // Função para formatar unidade no singular/plural
 function formatarUnidade(quantidade, unidade) {
   const unidades = {
@@ -319,24 +422,31 @@ function formatarUnidade(quantidade, unidade) {
   return quantidade === 1 ? unidades[unidade].singular : unidades[unidade].plural;
 }
 
-// Event Listeners
+// Event listener para o formulário de juros simples
 document.getElementById('form-simples').addEventListener('submit', function (e) {
   e.preventDefault();
 
   const capital = parseFloat(document.getElementById('capital-simples').value);
-  const taxa = parseFloat(document.getElementById('taxa-simples').value);
+  const taxaOriginal = parseFloat(document.getElementById('taxa-simples').value);
+  const unidadeTaxa = document.getElementById('unidade-taxa-simples').value;
   const periodoOriginal = parseInt(document.getElementById('periodo-simples').value);
   const unidade = document.getElementById('unidade-simples').value;
 
+  // Calcula a taxa efetiva para o período selecionado
+  const taxaEfetiva = calcularTaxaEfetiva(taxaOriginal, unidadeTaxa, periodoOriginal, unidade);
   const periodo = converterParaMeses(periodoOriginal, unidade);
 
-  const resultado = calcularJurosSimples(capital, taxa, periodo);
+  const resultado = calcularJurosSimples(capital, taxaEfetiva, periodo);
   resultado.periodoOriginal = periodoOriginal;
   resultado.unidadeOriginal = unidade;
+  resultado.taxaOriginal = taxaOriginal;
+  resultado.unidadeTaxaOriginal = unidadeTaxa;
+  resultado.taxaEfetiva = taxaEfetiva;
   window.lastCalculationResult = resultado;
   exibirResultados(resultado);
 });
 
+// Event listener para o formulário de juros compostos
 document.getElementById('form-compostos').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -363,4 +473,17 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 // Inicializa o tema ao carregar a página
 document.addEventListener('DOMContentLoaded', function () {
   loadTheme();
+  
+  // Event listeners para conversão de taxa em tempo real
+  const taxaInput = document.getElementById('taxa-simples');
+  const unidadeTaxaSelect = document.getElementById('unidade-taxa-simples');
+  const unidadePeriodoSelect = document.getElementById('unidade-simples');
+  
+  // Atualiza taxa convertida quando qualquer campo relevante mudar
+  taxaInput.addEventListener('input', atualizarTaxaConvertida);
+  unidadeTaxaSelect.addEventListener('change', atualizarTaxaConvertida);
+  unidadePeriodoSelect.addEventListener('change', atualizarTaxaConvertida);
+  
+  // Inicializa a exibição da taxa convertida
+  atualizarTaxaConvertida();
 });

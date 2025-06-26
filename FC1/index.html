@@ -78,7 +78,20 @@
                   </div>
                   <div class="mb-3">
                     <label for="taxa-simples" class="form-label">Taxa de Juros (%)</label>
-                    <input type="number" class="form-control" id="taxa-simples" step="0.01" required>
+                    <div class="input-group">
+                      <input type="number" class="form-control" id="taxa-simples" step="0.01" required>
+                      <select class="form-select" id="unidade-taxa-simples" style="max-width: 120px;">
+                        <option value="diaria">ao dia</option>
+                        <option value="mensal" selected>ao mês</option>
+                        <option value="anual">ao ano</option>
+                      </select>
+                    </div>
+                    <div class="form-text">
+                      <small>
+                        <span class="text-muted">Taxa convertida: </span>
+                        <span id="taxa-convertida-simples" class="fw-bold text-primary">-</span>
+                      </small>
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label for="periodo-simples" class="form-label">Período</label>
