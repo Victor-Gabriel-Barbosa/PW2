@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+article {
+  background-color: red;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: blue;
+}
+
+div {
+  background-color: yellow;
+}

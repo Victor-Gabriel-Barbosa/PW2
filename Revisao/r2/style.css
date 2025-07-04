@@ -1,0 +1,10 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
+
+body {
+  font-family: "Pixelify Sans", sans-serif;
+}
+
+input {
+  width: 100px;
+}
