@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 article {
@@ -8,8 +9,6 @@ article {
 }
 
 section {
-  display: flex;
-  flex-wrap: wrap;
   background-color: blue;
 }
 
