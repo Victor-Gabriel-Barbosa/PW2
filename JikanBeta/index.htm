@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jikan API Tester</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="https://jikan.moe/favicon/apple-touch-icon.png?v=2">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- CSS Personalizado -->
+  <link rel="stylesheet" href="style.css">
+  <!-- JavaScript Personalizado -->
+  <script type="module" src="script.js"></script>
+</head>
+
+<body class="bg-light">
+  <!-- Barra de Navegação -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand fs-2 fw-bold" href="#">
+        <span class="text-primary"><i class="bi bi-code-slash"></i> Jikan API</span> Tester
+      </a>
+    </div>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <div class="container mt-4">
+    <!-- Seção de Busca -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white border-bottom">
+            <h4 class="mb-0">Buscar Anime</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-8">
+                <input type="text" id="searchInput" class="form-control" placeholder="Digite o nome do anime...">
+              </div>
+              <div class="col-md-4">
+                <button id="searchBtn" class="btn btn-primary w-100 rounded-pill fw-semibold">Buscar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicador de Carregamento -->
+    <div id="loading" class="text-center d-none">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Buscando animes...</p>
+    </div>
+
+    <!-- Seção de Resultados -->
+    <div id="results" class="row">
+      <!-- Os resultados serão exibidos aqui -->
+    </div>
+
+    <!-- Seção Top Animes -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Top Animes</h4>
+            <button id="loadTopAnime" class="btn btn-outline-primary rounded-pill fw-semibold">Carregar Top Animes</button>
+          </div>
+          <div class="card-body">
+            <div id="topAnimeResults" class="row">
+              <!-- Os resultados dos top animes serão exibidos aqui -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

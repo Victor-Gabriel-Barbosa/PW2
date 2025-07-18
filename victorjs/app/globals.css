@@ -1,17 +1,45 @@
+/* Resets global styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth !important;
+  height: 100%;
+}
+
+body {
+  background: #91b4e9d9;
+  background-image: url("/assets/pattern.png");
+  background-image: url("/assets/pattern.png"), linear-gradient(#559cee, #91b4e980);
+
+  background-blend-mode: lighten, normal;
+  background-attachment: fixed;
+
+  width: 100%;
+  min-width: fit-content;
+
+  height: 100%;
+  min-height: 100
+}
+
 * {
   margin: 0;
   padding: 0;
-  text-align: center;
+  box-sizing: border-box;
 }
 
-article {
-  background-color: red;
-}
+button {
+  color: blueviolet;
+  border: 2px solid blueviolet;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
 
-section {
-  background-color: blue;
-}
-
-div {
-  background-color: yellow;
+  &:hover {
+    color: white;
+    background-color: blueviolet;
+  }
 }
