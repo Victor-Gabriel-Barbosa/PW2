@@ -54,12 +54,20 @@ class JikanAPI {
     this.mostrarCarregando(true);
 
     try {
-      const resposta = await fetch(`${this.urlBase}/anime?q=${encodeURIComponent(consulta)}&limit=12`);
+      // Busca mais resultados para compensar a filtragem local
+      const resposta = await fetch(`${this.urlBase}/anime?q=${encodeURIComponent(consulta)}&limit=25`);
 
       if (!resposta.ok) throw new Error(`HTTP error! status: ${resposta.status}`);
 
       const dados = await resposta.json();
-      this.exibirResultados(dados.data, `Resultados para: "${consulta}"`);
+      
+      // Filtra localmente para remover conteúdo +18 (R+ e Rx ratings)
+      const animesFiltrados = dados.data.filter(anime => {
+        const rating = anime.rating;
+        return !rating || (!rating.includes('R+') && !rating.includes('Rx'));
+      }).slice(0, 12); // Limita a 12 resultados após filtrar
+
+      this.exibirResultados(animesFiltrados, `Resultados para: "${consulta}"`);
     } catch (erro) {
       console.error('Erro ao buscar anime:', erro);
       alert('Erro ao buscar anime. Tente novamente.');
@@ -72,12 +80,20 @@ class JikanAPI {
     this.mostrarCarregando(true);
 
     try {
-      const resposta = await fetch(`${this.urlBase}/top/anime?limit=12`);
+      // Busca mais resultados para compensar a filtragem local
+      const resposta = await fetch(`${this.urlBase}/top/anime?limit=25`);
 
       if (!resposta.ok) throw new Error(`HTTP error! status: ${resposta.status}`);
 
       const dados = await resposta.json();
-      this.exibirResultadosTopAnimes(dados.data);
+      
+      // Filtra conteúdo +18 (R+ e Rx ratings)
+      const animesFiltrados = dados.data.filter(anime => {
+        const rating = anime.rating;
+        return !rating || (!rating.includes('R+') && !rating.includes('Rx'));
+      }).slice(0, 12); // Limita a 12 resultados após filtrar
+
+      this.exibirResultadosTopAnimes(animesFiltrados);
     } catch (erro) {
       console.error('Erro ao carregar top animes:', erro);
       alert('Erro ao carregar top animes. Tente novamente.');
