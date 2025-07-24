@@ -31,7 +31,7 @@ export const Window = (props: WindowProps) => {
           />
         </button>
       </div>
-      <div className={"transition-all dark:bg-stone-950/50 dark:backdrop-blur-sm dark:text-white bg-white" + ((minimized || closed) ? " hidden" : "")}>
+      <div className={"bg-white transition-all" + ((minimized || closed) ? " hidden" : "")}>
         {props.children}
       </div>
     </div>

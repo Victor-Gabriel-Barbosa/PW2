@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PW2 - Hub de Projetos</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Ícones do Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+  <!-- CSS Personalizado -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <button class="btn theme-toggle" id="themeToggle" title="Alternar tema">
+    <i class="bi bi-sun-fill" id="themeIcon"></i>
+  </button>
+
+  <!-- Seção Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-4 fw-bold mb-3">
+            <i class="bi bi-code-slash me-3"></i>
+            Hub de Projetos PW2
+          </h1>
+          <p class="lead mb-4">
+            Explore todos os projetos desenvolvidos durante o curso.
+            Uma coleção de aplicações web, jogos e ferramentas interativas.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge badge-custom">
+              <i class="bi bi-globe me-1"></i>Web Development
+            </span>
+            <span class="badge badge-custom">
+              <i class="bi bi-controller me-1"></i>Games
+            </span>
+            <span class="badge badge-custom">
+              <i class="bi bi-tools me-1"></i>Tools
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="project-stats">
+            <div class="row">
+              <div class="col-6 stat-item">
+                <span class="stat-number" id="projectCount">15+</span>
+                <small>Projetos</small>
+              </div>
+              <div class="col-6 stat-item">
+                <span class="stat-number">2024</span>
+                <small>Ano</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conteúdo Principal -->
+  <div class="container">
+    <!-- Projetos de Jogos -->
+    <section class="mb-5">
+      <h2 class="section-title">
+        <i class="bi bi-controller me-2"></i>
+        Jogos
+      </h2>
+      <div class="row">
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./FlapBirds/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <i class="bi bi-feather"></i>
+                </div>
+                <h5 class="card-title">FlapBirds</h5>
+                <p class="card-text">Jogo inspirado no Flappy Bird com física realista e efeitos sonoros.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-code-slash me-1"></i>JavaScript
+                  </small>
+                  <span class="badge bg-primary">Game</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Games/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./Games/images/favicon.svg" alt="Coleção de Jogos" class="project-favicon">
+                </div>
+                <h5 class="card-title">Coleção de Jogos</h5>
+                <p class="card-text">Hub com múltiplos jogos incluindo Pac-Man, Dinossauro e mais.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-collection me-1"></i>Multi-Games
+                  </small>
+                  <span class="badge bg-success">Collection</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./R-Games/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./R-Games/images/favicon/favicon.svg" alt="R-Games" class="project-favicon">
+                </div>
+                <h5 class="card-title">R-Games</h5>
+                <p class="card-text">Plataforma de jogos retro com interface moderna.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-display me-1"></i>Retro
+                  </small>
+                  <span class="badge bg-warning">Retro</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aplicações Web -->
+    <section class="mb-5">
+      <h2 class="section-title">
+        <i class="bi bi-globe me-2"></i>
+        Aplicações Web
+      </h2>
+      <div class="row">
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./MangaHQ/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./MangaHQ/images/favicon/favicon.svg" alt="MangaHQ" class="project-favicon">
+                </div>
+                <h5 class="card-title">MangaHQ</h5>
+                <p class="card-text">Plataforma completa para leitura de mangás com Firebase.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-cloud me-1"></i>Firebase
+                  </small>
+                  <span class="badge bg-info">Web App</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Mangwa/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./Mangwa/public/favicon/favicon.svg" alt="Mangwa" class="project-favicon">
+                </div>
+                <h5 class="card-title">Mangwa</h5>
+                <p class="card-text">Aplicação React com Vite e Tailwind para mangás.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-app me-1"></i>React
+                  </small>
+                  <span class="badge bg-primary">SPA</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Jikan/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./Jikan/images/favicon/favicon.svg" alt="Jikan" class="project-favicon">
+                </div>
+                <h5 class="card-title">Jikan</h5>
+                <p class="card-text">Interface para explorar animes usando a API Jikan.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-api me-1"></i>API
+                  </small>
+                  <span class="badge bg-secondary">Anime</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Animu+/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <i class="bi bi-play-circle"></i>
+                </div>
+                <h5 class="card-title">Animu+</h5>
+                <p class="card-text">Plataforma de streaming de anime com design moderno.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-play me-1"></i>Streaming
+                  </small>
+                  <span class="badge bg-danger">Media</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Muscia/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <i class="bi bi-music-note-beamed"></i>
+                </div>
+                <h5 class="card-title">Muscia</h5>
+                <p class="card-text">Player de música com interface elegante e controles avançados.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-volume-up me-1"></i>Audio
+                  </small>
+                  <span class="badge bg-success">Music</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Portfolio/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./Portfolio/images/favicon/favicon.svg" alt="Portfolio" class="project-favicon">
+                </div>
+                <h5 class="card-title">Portfolio</h5>
+                <p class="card-text">Portfólio pessoal com PWA e service worker.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-phone me-1"></i>PWA
+                  </small>
+                  <span class="badge bg-dark">Portfolio</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Atividades de Aprendizado -->
+    <section class="mb-5">
+      <h2 class="section-title">
+        <i class="bi bi-mortarboard me-2"></i>
+        Atividades de Aprendizado
+      </h2>
+      <div class="row">
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Atividades/a1/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./Atividades/a1/favicon/favicon.svg" alt="Atividade 1" class="project-favicon">
+                </div>
+                <h5 class="card-title">Atividade 1</h5>
+                <p class="card-text">Primeiros passos com HTML, CSS e JavaScript.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-book me-1"></i>Básico
+                  </small>
+                  <span class="badge bg-light text-dark">Learning</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Atividades/a3/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./Atividades/a3/images/favicon/favicon.svg" alt="Atividade 3" class="project-favicon">
+                </div>
+                <h5 class="card-title">Atividade 3</h5>
+                <p class="card-text">Desenvolvimento avançado com JavaScript moderno.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-gear me-1"></i>Avançado
+                  </small>
+                  <span class="badge bg-light text-dark">Learning</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./FC1/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./FC1/images/favicon/favicon.svg" alt="FC1" class="project-favicon">
+                </div>
+                <h5 class="card-title">FC1</h5>
+                <p class="card-text">Projeto final do primeiro módulo.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-award me-1"></i>Final
+                  </small>
+                  <span class="badge bg-warning">Project</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Versões de Desenvolvimento -->
+    <section class="mb-5">
+      <h2 class="section-title">
+        <i class="bi bi-code-square me-2"></i>
+        Versões de Desenvolvimento
+      </h2>
+      <div class="row">
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./JikanBeta/index.htm" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <i class="bi bi-wrench"></i>
+                </div>
+                <h5 class="card-title">Jikan Beta</h5>
+                <p class="card-text">Versão beta do projeto Jikan com funcionalidades experimentais.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-beaker me-1"></i>Beta
+                  </small>
+                  <span class="badge bg-warning">Dev</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./victorjs/app" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <i class="bi bi-layers"></i>
+                </div>
+                <h5 class="card-title">VictorJS</h5>
+                <p class="card-text">Aplicação Next.js com TypeScript e configurações avançadas.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-triangle me-1"></i>Next.js
+                  </small>
+                  <span class="badge bg-info">Framework</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 project-card">
+          <a href="./Nower/index.html" class="project-link">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="project-icon">
+                  <img src="./Nower/images/favicon.svg" alt="Nower" class="project-favicon">
+                </div>
+                <h5 class="card-title">Nower</h5>
+                <p class="card-text">Projeto experimental com tecnologias emergentes.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="bi bi-star me-1"></i>Experimental
+                  </small>
+                  <span class="badge bg-secondary">Prototype</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Estatísticas Rápidas -->
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <i class="bi bi-graph-up me-2"></i>
+            Estatísticas dos Projetos
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-3 mb-3">
+              <div class="stat-item">
+                <span class="stat-number text-primary">5</span>
+                <small>Jogos</small>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="stat-item">
+                <span class="stat-number text-success">8</span>
+                <small>Web Apps</small>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="stat-item">
+                <span class="stat-number text-warning">4</span>
+                <small>Atividades</small>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="stat-item">
+                <span class="stat-number text-info">3</span>
+                <small>Protótipos</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h5>Hub de Projetos PW2</h5>
+          <p class="mb-0">Desenvolvido durante o curso de Programação Web 2 - Uma jornada de aprendizado contínuo.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <p class="mb-0">
+            <i class="bi bi-calendar me-1"></i>
+            Atualizado em 2024
+          </p>
+          <small class="text-muted">
+            <i class="bi bi-code-slash me-1"></i>
+            Feito com Bootstrap & ❤️
+          </small>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
