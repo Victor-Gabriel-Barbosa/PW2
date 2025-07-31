@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarefas</title>
+</head>
+
+<body>
+  <h1>Tarefas</h1>
+  <ul>
+    <% tarefas.forEach(tarefa=> { %>
+      <li>
+        <%= tarefa.descricao %> - <%= tarefa.status %>
+      </li>
+      <% }); %>
+  </ul>
+  <form action="/adicionar_tarefa" method="POST">
+    <input type="text" name="descricao" placeholder="Descrição da Tarefa" required>
+    <select name="status">
+      <option value="pendente">Pendente</option>
+      <option value="concluída">Concluída</option>
+    </select>
+    <button type="submit">Adicionar Tarefa</button>
+  </form>
+  <form action="/buscar_tarefas" method="GET">
+    <input type="text" name="termo" placeholder="Buscar Tarefas...">
+    <button type="submit">Buscar</button>
+  </form>
+  <form action="/remover_tarefa" method="POST">
+    <input type="text" name="id" placeholder="ID da Tarefa a Remover" required>
+    <button type="submit">Remover Tarefa</button>
+  </form>
+  <form action="/atualizar_tarefa" method="POST">
+    <input type="text" name="id" placeholder="ID da Tarefa a Atualizar" required>
+    <input type="text" name="descricao" placeholder="Nova Descrição">
+    <select name="status">
+      <option value="pendente">Pendente</option>
+      <option value="concluída">Concluída</option>
+    </select>
+    <button type="submit">Atualizar Tarefa</button>
+  </form>
+  <form action="/exportar_tarefas" method="GET">
+    <button type="submit">Exportar Tarefas</button>
+  </form>
+  <form action="/importar_tarefas" method="POST" enctype="multipart/form-data">
+    <input type="file" name="arquivo" accept=".json" required>
+    <button type="submit">Importar Tarefas</button>
+  </form>
+  <form action="/limpar_tarefas" method="POST">
+    <button type="submit">Limpar Todas as Tarefas</button>
+  </form>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Perfil</title>
+</head>
+
+<body>
+  <h1>
+    <%= user.nome %>
+  </h1>
+  <ul>
+    <% user.prefs.forEach(item=> { %>
+      <li>
+        <%= item %>
+      </li>
+      <% }); %>
+  </ul>
+  <form action="/processa_formulario1" method="POST">
+    <input type="text" name="campo1" placeholder="Campo 1">
+    <button type="submit">Enviar</button>
+  </form>
+  <form action="/busca" method="GET">
+    <input type="color" name="termo" placeholder="Buscar...">
+    <button type="submit">Buscar</button>
+  </form>
+</body>
+
+</html>
