@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasília - Capital do Brasil</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f5f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4a90e2, #87CEEB);
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      margin-bottom: 40px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .main-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      align-items: flex-start;
+      max-width: calc(100% - 40px);
+      margin: 0 auto;
+    }
+
+    .info-box {
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .info-box h2 {
+      color: #4a90e2;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #4a90e2;
+      padding-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    .highlight {
+      background-color: #fffde7;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    footer {
+      background: linear-gradient(135deg, #4a90e2, #87CEEB);
+      color: white;
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+      border-radius: 10px;
+    }
+
+    .capital-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .fact-card {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .fact-card h3 {
+      color: #4a90e2;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      header,
+      footer {
+        padding: 30px 15px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* Estilos para a animação da bandeira */
+    .flag-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 30px auto;
+    }
+
+    .flag {
+      width: 100%;
+      height: 250px;
+      background-color: #fffde7;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .flag-blue {
+      width: 3/5;
+      height: 100%;
+      background-color: #023ef9;
+      float: left;
+      position: absolute;
+    }
+
+    .flag-yellow {
+      width: 2/5;
+      height: 100%;
+      background-color: #ffe600;
+      float: right;
+      position: absolute;
+    }
+
+    /* Estilos para o mapa interativo */
+    .map-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    #brasil-map {
+      width: 100%;
+      height: 300px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Brasília - Capital do Brasil</h1>
+    <p>A cidade planejada que surgiu do deserto para representar a nova era da Nação</p>
+
+    <!-- Bandeira Brasileira -->
+    <div class="flag-container">
+      <div class="flag">
+        <div class="flag-blue"></div>
+        <div class="flag-yellow" style="position: absolute; top: 0; right: 0;"></div>
+      </div>
+    </div>
+
+  </header>
+
+  <main class="container main-content">
+
+    <!-- Introdução -->
+    <section class="info-box">
+      <h2>Sobre Brasília</h2>
+      <p>Brasília é a capital do Brasil e foi fundada em 1956 mediante um plano de desenvolvimento nacionalista que
+        previa o crescimento da região central para dar mais equilíbrio ao território brasileiro.</p>
+
+      <div class="highlight">
+        "Ninguém cogitou no passado, ninguém teme o futuro, todos vivem no presente. E por isso Brasília nasceu sem
+        história."
+      </div>
+
+      <p>Concebida pelo urbanista Lúcio Costa e projetada pelo arquiteto Oscar Niemeyer, a cidade foi construída em
+        apenas 4 anos (1956-1960), sendo habitada inicialmente por trabalhadores migrados de todo o Brasil.</p>
+    </section>
+
+    <!-- Informações históricas -->
+    <section class="info-box">
+      <h2>História da Capital</h2>
+      <p>O plano que resultou na escolha de Brasília como capital ficou conhecido como Plano Collor, proposto pelo
+        economista Pedro Ludovico Teixeira em 1937.</p>
+
+      <p>No dia 3 de outubro de 1956, houve a solenidade de assinalação da pedra fundamental. A construção oficial foi
+        iniciada no mesmo ano e concluída em apenas 4 anos.</p>
+
+      <div class="highlight">
+        Aniversário: 72 anos (em 2023)
+      </div>
+    </section>
+
+    <!-- Características urbanas -->
+    <section class="info-box">
+      <h2>Características Urbanas</h2>
+      <p>Brasília é conhecida como uma cidade "planta baixa", com rua principal plana e sem desníveis, o que foi
+        fundamental para a sua arquitetura.</p>
+
+      <div class="capital-facts">
+        <div class="fact-card">
+          <h3>Plano Padrão</h3>
+          <p>A cidade foi planejada com um modelo urbano altamente estruturado, conhecido como Plano Padrão.</p>
+        </div>
+
+        <div class="fact-card">
+          <h3>Cidades Satélites</h3>
+          <p>6 cidades satélites que compõem a Área Metropolitana de Brasília (AMBR).</p>
+        </div>
+
+        <div class="fact-card">
+          <h3>Paisagem Modernista</h3>
+          <p>Conceito arquitetônico único, premiado com o Pritzker Architecture Prize.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Informações sobre a população -->
+    <section class="info-box">
+      <h2>História da População</h2>
+      <p>Brasília mudou de nome em 1960, tornando-se oficialmente "Cidade do Sol". Em seu centenário (1956), a cidade
+        tinha apenas 8 famílias.</p>
+
+      <div class="highlight">
+        População atual: Mais de 3 milhões de habitantes na Região Metropolitana
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mapa interativo -->
+  <footer style="text-align:left;">
+    <h2>Localização no Brasil</h2>
+    <p>Brasília está situada no Centro-Oeste brasileiro, no território do Distrito Federal.</p>
+
+    <div class="map-container">
+      <!-- Mapa SVG simplificado -->
+      <svg id="brasil-map" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Formato simplificado do mapa do Brasil e destaque para DF e Brasília -->
+        <path d="M150,100 C170,90 200,80 220,70" fill="#f8f9fa" stroke="#4a90e2" />
+        <circle cx="360" cy="250" r="15" fill="#ffe600" />
+
+        <!-- Brasília -->
+        <text x="360" y="30" font-size="20" text-anchor="middle">Brasília</text>
+      </svg>
+
+    </div>
+
+  </footer>
+
+  <script>
+    // Script para mostrar informações sobre a capital
+    document.addEventListener('DOMContentLoaded', function () {
+      const infoBoxes = document.querySelectorAll('.info-box');
+
+      // Função para destacar a seção atual ao rolar
+      window.addEventListener('scroll', function () {
+        let current = '';
+
+        infoBoxes.forEach(infoBox => {
+          const boxTop = infoBox.offsetTop;
+          if (boxTop <= window.pageYOffset + 100) {
+            current = infoBox.getAttribute('data-title');
+          }
+        });
+
+        // Remover classe 'active' de todas as seções
+        document.querySelectorAll('.info-box').forEach(box => {
+          box.classList.remove('active');
+        });
+
+        // Adicionar classe 'active' à seção atual
+        const activeTitle = current;
+        if (activeTitle) {
+          document.querySelector(`.info-box h2:contains('${activeTitle}')`).closest('.info-box').classList.add('active');
+        }
+      });
+
+      // Função para fazer scroll suave para uma seção específica
+      function scrollToSection(title) {
+        const section = document.querySelector(`h2:contains("${title}")`);
+        if (section && typeof (section.scrollIntoView)) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+
+    });
+
+    // Função contida no CSS para verificar se há um texto dentro de um elemento
+    /* Adicionando uma função utilitária simples para o CSS */
+  </script>
+</body>
+
+</html>
