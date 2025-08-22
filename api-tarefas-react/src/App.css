@@ -1,0 +1,247 @@
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.app {
+  max-width: 800px;
+  width: 100%;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.app h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.app h2 {
+  color: #555;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.formulario-criacao {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem auto;
+  border: 1px solid #ddd;
+  max-width: 600px;
+}
+
+.formulario-criacao form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+.campo label {
+  font-weight: bold;
+  color: #555;
+}
+
+.campo input[type="text"] {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.campo input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.campo label:has(input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+  font-weight: normal;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+button.botao-excluir {
+  background-color: #dc3545;
+  margin-left: 0.5rem;
+
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.lista-tarefas {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tarefas {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.tarefa {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 550px;
+}
+
+.tarefa-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tarefa-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.descricao {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status.concluida {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status.em-andamento {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.tarefa-acoes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.formulario-edicao {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.formulario-edicao .campo {
+  margin-bottom: 1rem;
+}
+
+.botoes-edicao {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.botoes-edicao button:last-child {
+  background-color: #6c757d;
+}
+
+.botoes-edicao button:last-child:hover {
+  background-color: #545b62;
+}
+
+@media (max-width: 600px) {
+  #root {
+    padding: 1rem;
+  }
+  
+  .app {
+    padding: 1rem;
+    margin: 0;
+  }
+  
+  .tarefa-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tarefa-acoes {
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .formulario-criacao,
+  .lista-tarefas,
+  .tarefa {
+    max-width: 100%;
+  }
+}
+
+.lista-tarefas p {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
